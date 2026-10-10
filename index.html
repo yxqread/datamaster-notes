@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DataMaster 代码解读笔记</title>
+<meta name="description" content="DataMaster（自主数据工程框架）的代码讲解与核对修订，面向新手。">
+<style>
+:root{--bg:#fff;--fg:#1f2328;--muted:#656d76;--line:#d8dee4;--side:#f6f8fa;--accent:#0969da;--code:#f6f8fa;--quote:#ddf4ff;--quoteb:#54aeff;--w:300px}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1117;--fg:#e6edf3;--muted:#8b949e;--line:#30363d;--side:#161b22;--accent:#58a6ff;--code:#161b22;--quote:#10243b;--quoteb:#388bfd}}
+:root[data-theme=dark]{--bg:#0d1117;--fg:#e6edf3;--muted:#8b949e;--line:#30363d;--side:#161b22;--accent:#58a6ff;--code:#161b22;--quote:#10243b;--quoteb:#388bfd}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+#top{position:fixed;inset:0 0 auto 0;height:52px;display:flex;align-items:center;gap:12px;padding:0 16px;background:var(--bg);border-bottom:1px solid var(--line);z-index:20}
+#top b{font-size:17px}#top .sp{flex:1}
+#top input{width:min(320px,40vw);padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--side);color:var(--fg);font:inherit;font-size:14px}
+button{border:1px solid var(--line);background:var(--side);color:var(--fg);border-radius:6px;padding:5px 10px;cursor:pointer;font:inherit;font-size:14px}
+#menu{display:none}
+#side{position:fixed;top:52px;bottom:0;left:0;width:var(--w);overflow:auto;background:var(--side);border-right:1px solid var(--line);padding:14px 10px 40px}
+#side h4{margin:16px 8px 6px;font-size:12px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+#side a{display:block;padding:6px 10px;border-radius:6px;color:var(--fg);font-size:14px;line-height:1.45}
+#side a:hover{background:var(--line);text-decoration:none}
+#side a.on{background:var(--accent);color:#fff}
+#side a .n{opacity:.55;margin-right:6px}
+#side a.hide{display:none}
+main{margin-left:var(--w);padding:76px 40px 80px;display:flex;gap:40px}
+article{flex:1;min-width:0;max-width:860px}
+#toc{width:210px;flex:none;position:sticky;top:76px;align-self:flex-start;max-height:calc(100vh - 100px);overflow:auto;font-size:13px;line-height:1.5;border-left:2px solid var(--line);padding-left:12px}
+#toc a{display:block;color:var(--muted);padding:3px 0}#toc a.l3{padding-left:12px}#toc a:hover{color:var(--accent);text-decoration:none}
+#toc b{display:block;margin-bottom:6px;color:var(--fg)}
+h1{font-size:2em;border-bottom:1px solid var(--line);padding-bottom:.3em;line-height:1.3}
+h2{font-size:1.5em;border-bottom:1px solid var(--line);padding-bottom:.3em;margin-top:2em}
+h3{font-size:1.2em;margin-top:1.6em}
+h1,h2,h3,h4{scroll-margin-top:68px}
+p,li{overflow-wrap:anywhere}
+code{background:var(--code);padding:.15em .4em;border-radius:5px;font:.88em ui-monospace,SFMono-Regular,Consolas,monospace}
+pre{background:var(--code);border:1px solid var(--line);border-radius:8px;padding:14px;overflow:auto;line-height:1.5}
+pre code{background:none;padding:0;font-size:.85em}
+table{border-collapse:collapse;display:block;overflow:auto;max-width:100%;margin:1em 0}
+th,td{border:1px solid var(--line);padding:7px 12px;vertical-align:top}
+th{background:var(--side)}
+blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--quoteb);background:var(--quote);border-radius:0 8px 8px 0}
+blockquote p{margin:.3em 0}
+img{max-width:100%}
+.mermaid{text-align:center;overflow:auto;margin:1.2em 0;background:var(--side);border:1px solid var(--line);border-radius:8px;padding:12px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:56px;border-top:1px solid var(--line);padding-top:20px}
+.pager a{flex:1;border:1px solid var(--line);border-radius:8px;padding:10px 14px;color:var(--fg)}
+.pager a:hover{border-color:var(--accent);text-decoration:none}
+.pager small{display:block;color:var(--muted)}.pager .r{text-align:right}
+.home .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:18px 0}
+.home .card{border:1px solid var(--line);border-radius:10px;padding:12px 14px;color:var(--fg);background:var(--side)}
+.home .card:hover{border-color:var(--accent);text-decoration:none}
+.home .card small{color:var(--muted)}
+.note{font-size:14px;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:10px 14px}
+@media(max-width:1100px){#toc{display:none}}
+@media(max-width:820px){#menu{display:inline-block}#side{transform:translateX(-100%);transition:.2s;z-index:15}#side.open{transform:none}main{margin-left:0;padding:72px 18px 60px}}
+</style>
+</head>
+<body>
+<div id="top">
+  <button id="menu">☰</button>
+  <b><a href="#/" style="color:inherit">DataMaster 代码解读笔记</a></b>
+  <span class="sp"></span>
+  <input id="q" placeholder="筛选页面标题…" autocomplete="off">
+  <button id="theme" title="切换明暗主题">◐</button>
+</div>
+<nav id="side"></nav>
+<main><article id="doc"></article><aside id="toc"></aside></main>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11/lib/common.min.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+let pages=[],cur=-1;
+const root=document.documentElement;
+const saved=localStorage.getItem('theme');if(saved)root.dataset.theme=saved;
+const dark=()=>root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;
+$('#theme').onclick=()=>{root.dataset.theme=dark()?'light':'dark';localStorage.setItem('theme',root.dataset.theme);route()};
+$('#menu').onclick=()=>$('#side').classList.toggle('open');
+
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function slugify(t){return t.toLowerCase().replace(/<[^>]+>/g,'').replace(/[^\p{L}\p{N}]+/g,'-').replace(/^-|-$/g,'')}
+
+function buildSide(){
+  let html='',last='';
+  pages.forEach((p,i)=>{
+    if(p.section!==last){html+=`<h4>${esc(p.section)}</h4>`;last=p.section}
+    html+=`<a href="#/${p.slug}" data-i="${i}"><span class="n">${i+1}</span>${esc(p.title)}</a>`;
+  });
+  $('#side').innerHTML=html;
+}
+$('#q').oninput=e=>{
+  const v=e.target.value.trim().toLowerCase();
+  document.querySelectorAll('#side a').forEach(a=>a.classList.toggle('hide',!!v&&!a.textContent.toLowerCase().includes(v)));
+};
+
+function home(){
+  cur=-1;
+  let h=`<div class="home"><h1>DataMaster 代码解读笔记</h1>
+  <p>这是对开源项目 <a href="https://github.com/sjtu-sai-agents/DataMaster" target="_blank" rel="noopener">DataMaster</a>（一个让 AI 自主做数据工程的框架）的代码讲解，共 ${pages.length} 篇。</p>
+  <blockquote><p>这些笔记由 zread 自动生成，再经人工和代码逐条核对修订。每篇开头有「📖 小白导读」，结尾有「本文修订记录」，写明改了什么、依据哪段代码。标"推断"的是读代码得出、没有实际运行验证的判断。</p></blockquote>
+  <p><b>从哪里开始？</b>第一次接触，按顺序读「入门指南」；只关心某个主题，用左侧列表或搜索框。</p>
+  <div class="cards">`;
+  pages.forEach((p,i)=>h+=`<a class="card" href="#/${p.slug}"><small>${i+1} · ${esc(p.section)}</small><br>${esc(p.title)}</a>`);
+  h+=`</div><p class="note">说明：本站仅为学习笔记，非 DataMaster 官方文档。文中的源码链接指向官方仓库提交 bdecba3，核对未实际运行代码。</p></div>`;
+  $('#doc').innerHTML=h;$('#toc').innerHTML='';
+  document.title='DataMaster 代码解读笔记';
+  document.querySelectorAll('#side a').forEach(a=>a.classList.remove('on'));
+  scrollTo(0,0);
+}
+
+async function show(slug,anchor){
+  const i=pages.findIndex(p=>p.slug===slug);
+  if(i<0)return home();
+  cur=i;const p=pages[i];
+  document.querySelectorAll('#side a').forEach(a=>a.classList.toggle('on',+a.dataset.i===i));
+  $('#doc').innerHTML='<p style="color:var(--muted)">加载中…</p>';
+  let md;
+  try{const r=await fetch('wiki/'+p.file);if(!r.ok)throw 0;md=await r.text()}
+  catch(e){$('#doc').innerHTML='<p>页面加载失败，请刷新重试。</p>';return}
+  // 站内链接：zread 的 [文字](slug) 或 (slug#anchor) -> #/slug
+  const slugs=new Set(pages.map(x=>x.slug));
+  const GH='https://github.com/sjtu-sai-agents/DataMaster/blob/bdecba346277bdad43c63e5003d4f9fe13689803/';
+  md=md.replace(/\]\(([^)#\s]+)(#[^)]*)?\)/g,(m,s,a)=>{
+    if(slugs.has(s))return `](#/${s})`;
+    if(/^(https?:|mailto:)/.test(s))return m;
+    return `](${GH}${s.replace(/^\.?\//,'')}${a||''})`;});
+  const mer=[];
+  md=md.replace(/```mermaid\n([\s\S]*?)```/g,(m,c)=>{mer.push(c);return `\n<div class="mermaid" data-k="${mer.length-1}"></div>\n`});
+  const toc=[];
+  const rd=new marked.Renderer();
+  rd.heading=function(t,l){const text=typeof t==='object'?t.text:t;const lv=typeof t==='object'?t.depth:l;
+    const id=slugify(text);if(lv>=2&&lv<=3)toc.push([lv,id,text.replace(/<[^>]+>/g,'')]);
+    return `<h${lv} id="${id}">${text}</h${lv}>`};
+  marked.setOptions({gfm:true,breaks:false});
+  $('#doc').innerHTML=marked.parse(md,{renderer:rd});
+  // 外链新窗口
+  $('#doc').querySelectorAll('a[href^="http"]').forEach(a=>{a.target='_blank';a.rel='noopener'});
+  $('#doc').querySelectorAll('a[href]').forEach(a=>{const h=a.getAttribute('href');if(!/^(https?:|#)/.test(h)){const s=document.createElement('span');s.innerHTML=a.innerHTML;s.style.borderBottom='1px dotted var(--muted)';a.replaceWith(s)}});
+  $('#doc').querySelectorAll('pre code').forEach(b=>{try{hljs.highlightElement(b)}catch(e){}});
+  // mermaid
+  mermaid.initialize({startOnLoad:false,theme:dark()?'dark':'default',securityLevel:'loose'});
+  for(const el of $('#doc').querySelectorAll('.mermaid')){
+    try{const {svg}=await mermaid.render('m'+Math.random().toString(36).slice(2),mer[+el.dataset.k]);el.innerHTML=svg}
+    catch(e){el.innerHTML='<pre><code>'+esc(mer[+el.dataset.k])+'</code></pre>'}
+  }
+  // 翻页
+  const pv=pages[i-1],nx=pages[i+1];
+  $('#doc').insertAdjacentHTML('beforeend',`<div class="pager">${pv?`<a href="#/${pv.slug}"><small>← 上一篇</small>${esc(pv.title)}</a>`:'<span></span>'}${nx?`<a class="r" href="#/${nx.slug}"><small>下一篇 →</small>${esc(nx.title)}</a>`:'<span></span>'}</div>`);
+  $('#toc').innerHTML=toc.length?'<b>本页目录</b>'+toc.map(([l,id,t])=>`<a class="l${l}" href="#/${slug}~${id}">${esc(t)}</a>`).join(''):'';
+  document.title=p.title+' · DataMaster 代码解读笔记';
+  $('#side').classList.remove('open');
+  if(anchor){const e=document.getElementById(anchor);if(e)e.scrollIntoView()}else scrollTo(0,0);
+}
+
+function route(){
+  const h=decodeURIComponent(location.hash.replace(/^#\/?/,''));
+  if(!h)return home();
+  const [slug,anchor]=h.split('~');
+  show(slug,anchor);
+}
+addEventListener('hashchange',route);
+
+fetch('wiki/wiki.json').then(r=>r.json()).then(d=>{pages=d.pages;buildSide();route()})
+ .catch(()=>{$('#doc').innerHTML='<p>目录加载失败。若在本地直接双击打开，请先用 <code>python -m http.server</code> 启动本地服务再访问。</p>'});
+</script>
+</body>
+</html>

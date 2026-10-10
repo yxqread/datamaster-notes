@@ -1,0 +1,243 @@
+{
+  "id": "2026-10-09-182834",
+  "generated_at": "2026-10-09T10:28:34.8442841Z",
+  "language": "zh",
+  "pages": [
+    {
+      "slug": "1-xiang-mu-gai-lan-zi-zhu-shu-ju-gong-cheng-kuang-jia-datamaster",
+      "title": "项目概览：自主数据工程框架 DataMaster",
+      "file": "1-xiang-mu-gai-lan-zi-zhu-shu-ju-gong-cheng-kuang-jia-datamaster.md",
+      "section": "入门指南",
+      "level": "Beginner"
+    },
+    {
+      "slug": "2-kuai-su-kai-shi-yun-xing-di-ge-datatree-sou-suo-ren-wu",
+      "title": "快速开始：运行第一个 DataTree 搜索任务",
+      "file": "2-kuai-su-kai-shi-yun-xing-di-ge-datatree-sou-suo-ren-wu.md",
+      "section": "入门指南",
+      "level": "Beginner"
+    },
+    {
+      "slug": "3-huan-jing-zhun-bei-an-zhuang-yi-lai-yu-ping-zheng-guan-li",
+      "title": "环境准备：安装、依赖与凭证管理",
+      "file": "3-huan-jing-zhun-bei-an-zhuang-yi-lai-yu-ping-zheng-guan-li.md",
+      "section": "入门指南",
+      "level": "Beginner"
+    },
+    {
+      "slug": "4-mle-bench-shu-ju-ji-yu-ren-wu-shu-ru-zhun-bei",
+      "title": "MLE-Bench 数据集与任务输入准备",
+      "file": "4-mle-bench-shu-ju-ji-yu-ren-wu-shu-ru-zhun-bei.md",
+      "section": "入门指南",
+      "level": "Beginner"
+    },
+    {
+      "slug": "5-cang-ku-mu-lu-jie-gou-yu-mo-kuai-zhi-ze-su-lan",
+      "title": "仓库目录结构与模块职责速览",
+      "file": "5-cang-ku-mu-lu-jie-gou-yu-mo-kuai-zhi-ze-su-lan.md",
+      "section": "深入理解",
+      "group": "核心架构",
+      "level": "Beginner"
+    },
+    {
+      "slug": "6-evomaster-san-ceng-jia-gou-playground-exp-agent",
+      "title": "EvoMaster 三层架构：Playground / Exp / Agent",
+      "file": "6-evomaster-san-ceng-jia-gou-playground-exp-agent.md",
+      "section": "深入理解",
+      "group": "核心架构",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "7-datatree-sou-suo-liu-cheng-quan-jie-xi-cong-chu-shi-hua-dao-bing-xing-sou-suo",
+      "title": "DataTree 搜索流程全解析：从初始化到并行搜索",
+      "file": "7-datatree-sou-suo-liu-cheng-quan-jie-xi-cong-chu-shi-hua-dao-bing-xing-sou-suo.md",
+      "section": "深入理解",
+      "group": "DataTree 核心工作流",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "8-san-lei-jie-dian-shi-yan-initial-black-yu-red-de-zhi-ze-hua-fen",
+      "title": "三类节点实验：Initial、Black 与 Red 的职责划分",
+      "file": "8-san-lei-jie-dian-shi-yan-initial-black-yu-red-de-zhi-ze-hua-fen.md",
+      "section": "深入理解",
+      "group": "DataTree 核心工作流",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "9-uct-sou-suo-suan-fa-jie-dian-xuan-ze-jiang-li-geng-xin-yu-shuai-jian-ce-lue",
+      "title": "UCT 搜索算法：节点选择、奖励更新与衰减策略",
+      "file": "9-uct-sou-suo-suan-fa-jie-dian-xuan-ze-jiang-li-geng-xin-yu-shuai-jian-ce-lue.md",
+      "section": "深入理解",
+      "group": "DataTree 核心工作流",
+      "level": "Advanced"
+    },
+    {
+      "slug": "10-bing-xing-zhi-xing-ji-zhi-worker-xun-huan-yu-shi-jian-qu-dong-jie-dian-kuo-zhan",
+      "title": "并行执行机制：Worker 循环与事件驱动节点扩展",
+      "file": "10-bing-xing-zhi-xing-ji-zhi-worker-xun-huan-yu-shi-jian-qu-dong-jie-dian-kuo-zhan.md",
+      "section": "深入理解",
+      "group": "DataTree 核心工作流",
+      "level": "Advanced"
+    },
+    {
+      "slug": "11-ping-gu-fan-kui-bi-huan-metric-agent-yu-yan-zheng-zhi-biao-jie-xi",
+      "title": "评估反馈闭环：Metric Agent 与验证指标解析",
+      "file": "11-ping-gu-fan-kui-bi-huan-metric-agent-yu-yan-zheng-zhi-biao-jie-xi.md",
+      "section": "深入理解",
+      "group": "DataTree 核心工作流",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "12-memory-tree-yu-uct-shu-dui-ying-de-wen-jian-xi-tong-she-ji",
+      "title": "Memory Tree：与 UCT 树对应的文件系统设计",
+      "file": "12-memory-tree-yu-uct-shu-dui-ying-de-wen-jian-xi-tong-she-ji.md",
+      "section": "深入理解",
+      "group": "记忆与数据资产",
+      "level": "Advanced"
+    },
+    {
+      "slug": "13-manifest-md-yu-jie-dian-zhi-shi-ku-zong-jie-ji-zhi",
+      "title": "manifest.md 与节点知识库总结机制",
+      "file": "13-manifest-md-yu-jie-dian-zhi-shi-ku-zong-jie-ji-zhi.md",
+      "section": "深入理解",
+      "group": "记忆与数据资产",
+      "level": "Advanced"
+    },
+    {
+      "slug": "14-data-pool-yu-wai-bu-shu-ju-yuan-yin-ru-hong-jie-dian-shu-ju-xia-zai",
+      "title": "Data Pool 与外部数据源引入（红节点数据下载）",
+      "file": "14-data-pool-yu-wai-bu-shu-ju-yuan-yin-ru-hong-jie-dian-shu-ju-xia-zai.md",
+      "section": "深入理解",
+      "group": "记忆与数据资产",
+      "level": "Advanced"
+    },
+    {
+      "slug": "15-operate_submission-dai-ma-guan-li-zhi-xing-yu-ti-jiao-xiao-yan-liu-shui-xian",
+      "title": "operate_submission：代码管理、执行与提交校验流水线",
+      "file": "15-operate_submission-dai-ma-guan-li-zhi-xing-yu-ti-jiao-xiao-yan-liu-shui-xian.md",
+      "section": "深入理解",
+      "group": "工具链体系",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "16-shu-ju-ji-sou-suo-gong-ju-ji-huggingface-github-web-xue-zhu-jian-suo",
+      "title": "数据集搜索工具集：HuggingFace / GitHub / Web / 学术检索",
+      "file": "16-shu-ju-ji-sou-suo-gong-ju-ji-huggingface-github-web-xue-zhu-jian-suo.md",
+      "section": "深入理解",
+      "group": "工具链体系",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "17-agent-nei-zhi-gong-ju-bash-editor-think-finish-yu-mcp-xie-yi-ji-cheng",
+      "title": "Agent 内置工具（Bash / Editor / Think / Finish）与 MCP 协议集成",
+      "file": "17-agent-nei-zhi-gong-ju-bash-editor-think-finish-yu-mcp-xie-yi-ji-cheng.md",
+      "section": "深入理解",
+      "group": "工具链体系",
+      "level": "Advanced"
+    },
+    {
+      "slug": "18-skills-ji-neng-xi-tong-zhi-shi-xing-yu-cao-zuo-xing-ji-neng-de-san-ji-jie-gou",
+      "title": "Skills 技能系统：知识型与操作型技能的三级结构",
+      "file": "18-skills-ji-neng-xi-tong-zhi-shi-xing-yu-cao-zuo-xing-ji-neng-de-san-ji-jie-gou.md",
+      "section": "深入理解",
+      "group": "工具链体系",
+      "level": "Advanced"
+    },
+    {
+      "slug": "19-agent-ji-lei-dui-hua-guan-li-gui-ji-ji-lu-yu-shang-xia-wen-jie-duan-ce-lue",
+      "title": "Agent 基类：对话管理、轨迹记录与上下文截断策略",
+      "file": "19-agent-ji-lei-dui-hua-guan-li-gui-ji-ji-lu-yu-shang-xia-wen-jie-duan-ce-lue.md",
+      "section": "深入理解",
+      "group": "Agent 框架原理",
+      "level": "Advanced"
+    },
+    {
+      "slug": "20-llm-chou-xiang-ceng-duo-gong-ying-shang-jie-ru-yu-tong-cha-xun-jie-kou",
+      "title": "LLM 抽象层：多供应商接入与统一查询接口",
+      "file": "20-llm-chou-xiang-ceng-duo-gong-ying-shang-jie-ru-yu-tong-cha-xun-jie-kou.md",
+      "section": "深入理解",
+      "group": "Agent 框架原理",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "21-hui-hua-yu-huan-jing-guan-li-localsession-yu-docker-ge-chi-huan-jing",
+      "title": "会话与环境管理：LocalSession 与 Docker 隔离环境",
+      "file": "21-hui-hua-yu-huan-jing-guan-li-localsession-yu-docker-ge-chi-huan-jing.md",
+      "section": "深入理解",
+      "group": "Agent 框架原理",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "22-pei-zhi-ti-xi-jie-xi-yaml-pei-zhi-mcp-json-yu-ren-wu-ji-pei-zhi-sheng-cheng",
+      "title": "配置体系解析：YAML 配置、MCP JSON 与任务级配置生成",
+      "file": "22-pei-zhi-ti-xi-jie-xi-yaml-pei-zhi-mcp-json-yu-ren-wu-ji-pei-zhi-sheng-cheng.md",
+      "section": "深入理解",
+      "group": "配置与可观测性",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "23-prompt-mo-ban-gong-cheng-initial-si-chong-mo-shi-yu-jie-dian-ji-ti-shi-ci-zu-zhuang",
+      "title": "Prompt 模板工程：Initial 四种模式与节点级提示词组装",
+      "file": "23-prompt-mo-ban-gong-cheng-initial-si-chong-mo-shi-yu-jie-dian-ji-ti-shi-ci-zu-zhuang.md",
+      "section": "深入理解",
+      "group": "配置与可观测性",
+      "level": "Advanced"
+    },
+    {
+      "slug": "24-grading-server-ping-ce-fu-wu-qi-bu-shu-jian-kang-jian-cha-yu-api-jie-kou",
+      "title": "Grading Server：评测服务器部署、健康检查与 API 接口",
+      "file": "24-grading-server-ping-ce-fu-wu-qi-bu-shu-jian-kang-jian-cha-yu-api-jie-kou.md",
+      "section": "深入理解",
+      "group": "配置与可观测性",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "25-sou-suo-guo-cheng-ke-shi-hua-datatree-jiao-hu-shi-shu-fen-xi-yu-fen-shu-dui-zhao",
+      "title": "搜索过程可视化：DataTree 交互式树分析与分数对照",
+      "file": "25-sou-suo-guo-cheng-ke-shi-hua-datatree-jiao-hu-shi-shu-fen-xi-yu-fen-shu-dui-zhao.md",
+      "section": "深入理解",
+      "group": "配置与可观测性",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "26-yun-wei-jiao-ben-zhi-nan-pei-zhi-sheng-cheng-chu-shi-dai-ma-gou-jian-yu-duan-kou-zhen-duan",
+      "title": "运维脚本指南：配置生成、初始代码构建与端口诊断",
+      "file": "26-yun-wei-jiao-ben-zhi-nan-pei-zhi-sheng-cheng-chu-shi-dai-ma-gou-jian-yu-duan-kou-zhen-duan.md",
+      "section": "深入理解",
+      "group": "配置与可观测性",
+      "level": "Beginner"
+    },
+    {
+      "slug": "27-ml-master-ji-xian-mcts-zhi-neng-ti-yu-jie-jue-fang-an-shu-she-ji",
+      "title": "ML-Master 基线：MCTS 智能体与解决方案树设计",
+      "file": "27-ml-master-ji-xian-mcts-zhi-neng-ti-yu-jie-jue-fang-an-shu-she-ji.md",
+      "section": "深入理解",
+      "group": "基线与扩展开发",
+      "level": "Advanced"
+    },
+    {
+      "slug": "28-mle-bench-ji-cheng-yu-75-ge-ren-wu-de-pei-zhi-ding-zhi",
+      "title": "MLE-Bench 集成与 75 个任务的配置定制",
+      "file": "28-mle-bench-ji-cheng-yu-75-ge-ren-wu-de-pei-zhi-ding-zhi.md",
+      "section": "深入理解",
+      "group": "基线与扩展开发",
+      "level": "Intermediate"
+    },
+    {
+      "slug": "29-zu-jian-xiao-rong-shi-yan-use_red_node-use_memory-black_mode-kai-guan",
+      "title": "组件消融实验：use_red_node / use_memory / black_mode 开关",
+      "file": "29-zu-jian-xiao-rong-shi-yan-use_red_node-use_memory-black_mode-kai-guan.md",
+      "section": "深入理解",
+      "group": "基线与扩展开发",
+      "level": "Advanced"
+    },
+    {
+      "slug": "30-er-ci-kai-fa-zhi-nan-zhu-ce-zi-ding-yi-playground-exp-yu-agent",
+      "title": "二次开发指南：注册自定义 Playground、Exp 与 Agent",
+      "file": "30-er-ci-kai-fa-zhi-nan-zhu-ce-zi-ding-yi-playground-exp-yu-agent.md",
+      "section": "深入理解",
+      "group": "基线与扩展开发",
+      "level": "Advanced"
+    }
+  ]
+}

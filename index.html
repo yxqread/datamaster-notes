@@ -6,7 +6,7 @@
 <title>DataMaster 代码解读笔记</title>
 <meta name="description" content="DataMaster（自主数据工程框架）的代码讲解与核对修订，面向新手。">
 <style>
-:root{--bg:#fff;--fg:#1f2328;--muted:#656d76;--line:#d8dee4;--side:#f6f8fa;--accent:#0969da;--code:#f6f8fa;--quote:#ddf4ff;--quoteb:#54aeff;--w:300px}
+:root{--bg:#fff;--fg:#1f2328;--muted:#656d76;--line:#d8dee4;--side:#f6f8fa;--accent:#0969da;--code:#f6f8fa;--quote:#ddf4ff;--quoteb:#54aeff;--w:268px}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1117;--fg:#e6edf3;--muted:#8b949e;--line:#30363d;--side:#161b22;--accent:#58a6ff;--code:#161b22;--quote:#10243b;--quoteb:#388bfd}}
 :root[data-theme=dark]{--bg:#0d1117;--fg:#e6edf3;--muted:#8b949e;--line:#30363d;--side:#161b22;--accent:#58a6ff;--code:#161b22;--quote:#10243b;--quoteb:#388bfd}
 *{box-sizing:border-box}
@@ -19,14 +19,21 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 button{border:1px solid var(--line);background:var(--side);color:var(--fg);border-radius:6px;padding:5px 10px;cursor:pointer;font:inherit;font-size:14px}
 #menu{display:none}
 #side{position:fixed;top:52px;bottom:0;left:0;width:var(--w);overflow:auto;background:var(--side);border-right:1px solid var(--line);padding:14px 10px 40px}
-#side h4{margin:16px 8px 6px;font-size:12px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
-#side a{display:block;padding:6px 10px;border-radius:6px;color:var(--fg);font-size:14px;line-height:1.45}
+#side .grp{margin:2px 0 6px}
+#side .gh{display:flex;align-items:center;gap:6px;width:100%;border:0;background:none;color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.04em;padding:8px 8px 6px;cursor:pointer;text-align:left}
+#side .gh:hover{color:var(--fg)}
+#side .gh .ch{display:inline-block;transition:transform .15s;font-size:10px}
+#side .grp.shut .gh .ch{transform:rotate(-90deg)}
+#side .gh .ct{margin-left:auto;font-weight:400;opacity:.7}
+#side .gl{margin-left:10px;border-left:1px solid var(--line);padding-left:4px}
+#side .grp.shut .gl{display:none}
+#side a{display:flex;align-items:baseline;gap:8px;padding:5px 10px;margin:1px 0;border-radius:6px;color:var(--fg);font-size:14px;line-height:1.5;border-left:2px solid transparent;white-space:nowrap}
+#side a .t{overflow:hidden;text-overflow:ellipsis;min-width:0}
+#side a .n{flex:none;width:1.4em;text-align:right;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
 #side a:hover{background:var(--line);text-decoration:none}
-#side a.on{background:var(--accent);color:#fff}
-#side a .n{opacity:.55;margin-right:6px}
-#side a.hide{display:none}
-main{margin-left:var(--w);padding:76px 40px 80px;display:flex;gap:48px;justify-content:center}
-article{flex:1 1 auto;min-width:0;max-width:960px}
+#side a.on{background:color-mix(in srgb,var(--accent) 14%,transparent);border-left-color:var(--accent);color:var(--accent);font-weight:600}
+#side a.hide,#side .grp.empty{display:none}
+#side .home-link{margin:0 0 6px;font-weight:600}
 #toc{width:230px;flex:none;position:sticky;top:76px;align-self:flex-start;max-height:calc(100vh - 100px);overflow:auto;font-size:13px;line-height:1.5;border-left:2px solid var(--line);padding-left:12px}
 #toc a{display:block;color:var(--muted);padding:3px 0 3px 10px;margin-left:-12px;border-left:2px solid transparent}#toc a.l3{padding-left:22px}#toc a:hover{color:var(--accent);text-decoration:none}#toc a.on{color:var(--accent);border-left-color:var(--accent);font-weight:600}
 #toc b{display:block;margin-bottom:6px;color:var(--fg)}
@@ -45,6 +52,7 @@ blockquote{margin:1em 0;padding:.6em 1em;border-left:4px solid var(--quoteb);bac
 blockquote p{margin:.3em 0}
 img{max-width:100%}
 .mermaid{text-align:center;overflow:auto;margin:1.2em 0;background:var(--side);border:1px solid var(--line);border-radius:8px;padding:12px}
+.kicker{font-size:13px;color:var(--muted);margin-bottom:-6px}
 .pager{display:flex;justify-content:space-between;gap:12px;margin-top:56px;border-top:1px solid var(--line);padding-top:20px}
 .pager a{flex:1;border:1px solid var(--line);border-radius:8px;padding:10px 14px;color:var(--fg)}
 .pager a:hover{border-color:var(--accent);text-decoration:none}
@@ -84,17 +92,41 @@ $('#menu').onclick=()=>$('#side').classList.toggle('open');
 function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
 function slugify(t){return t.toLowerCase().replace(/<[^>]+>/g,'').replace(/[^\p{L}\p{N}]+/g,'-').replace(/^-|-$/g,'')}
 
+const GROUPS=[
+ ['入门指南',[1,2,3,4]],
+ ['总览',[5,6]],
+ ['搜索核心',[7,8,9,10,11,29]],
+ ['记忆与数据',[12,13,14]],
+ ['工具与评测',[15,16,24]],
+ ['Agent 框架',[17,18,19,20,21]],
+ ['配置与提示词',[22,23]],
+ ['运维与扩展',[25,26,30]],
+ ['基线与基准',[27,28]]
+];
+const SHORT={4:'MLE-Bench 数据准备',13:'manifest 与知识总结',14:'Data Pool 与外部数据',17:'Agent 内置工具与 MCP',28:'MLE-Bench 集成与配置'};
+const shortTitle=(p,i)=>SHORT[i+1]||p.title.split(/[：:]/)[0].trim();
+let shut=JSON.parse(localStorage.getItem('shutGroups')||'[]');
 function buildSide(){
-  let html='',last='';
-  pages.forEach((p,i)=>{
-    if(p.section!==last){html+=`<h4>${esc(p.section)}</h4>`;last=p.section}
-    html+=`<a href="#/${p.slug}" data-i="${i}"><span class="n">${i+1}</span>${esc(p.title)}</a>`;
+  let h='<a class="home-link" href="#/"><span class="n">⌂</span><span class="t">首页</span></a>';
+  GROUPS.forEach(([name,ids])=>{
+    const items=ids.map(n=>[n-1,pages[n-1]]).filter(x=>x[1]);
+    h+=`<div class="grp${shut.includes(name)?' shut':''}" data-g="${esc(name)}"><button class="gh"><span class="ch">▼</span>${esc(name)}<span class="ct">${items.length}</span></button><div class="gl">`+
+      items.map(([i,p])=>`<a href="#/${p.slug}" data-i="${i}" title="${esc(p.title)}"><span class="n">${i+1}</span><span class="t">${esc(shortTitle(p,i))}</span></a>`).join('')+'</div></div>';
   });
-  $('#side').innerHTML=html;
+  $('#side').innerHTML=h;
+  $('#side').querySelectorAll('.gh').forEach(b=>b.onclick=()=>{
+    const g=b.parentElement;g.classList.toggle('shut');
+    shut=[...$('#side').querySelectorAll('.grp.shut')].map(x=>x.dataset.g);localStorage.setItem('shutGroups',JSON.stringify(shut));
+  });
 }
 $('#q').oninput=e=>{
   const v=e.target.value.trim().toLowerCase();
-  document.querySelectorAll('#side a').forEach(a=>a.classList.toggle('hide',!!v&&!a.textContent.toLowerCase().includes(v)));
+  document.querySelectorAll('#side .grp').forEach(g=>{
+    let any=false;
+    g.querySelectorAll('a').forEach(a=>{const ok=!v||(a.title+a.textContent).toLowerCase().includes(v);a.classList.toggle('hide',!ok);if(ok)any=true});
+    g.classList.toggle('empty',!any);
+    if(v&&any)g.classList.remove('shut');
+  });
 };
 
 function home(){
@@ -109,6 +141,7 @@ function home(){
   $('#doc').innerHTML=h;$('#toc').innerHTML='';
   document.title='DataMaster 代码解读笔记';
   document.querySelectorAll('#side a').forEach(a=>a.classList.remove('on'));
+  document.querySelector('#side .home-link').classList.add('on');
   scrollTo(0,0);
 }
 
@@ -116,7 +149,10 @@ async function show(slug){
   const i=pages.findIndex(p=>p.slug===slug);
   if(i<0)return home();
   cur=i;const p=pages[i];
-  document.querySelectorAll('#side a').forEach(a=>a.classList.toggle('on',+a.dataset.i===i));
+  document.querySelectorAll('#side a[data-i]').forEach(a=>a.classList.toggle('on',+a.dataset.i===i));
+  document.querySelector('#side .home-link').classList.remove('on');
+  const act=document.querySelector('#side a.on');
+  if(act){const g=act.closest('.grp');if(g)g.classList.remove('shut');act.scrollIntoView({block:'nearest'})}
   $('#doc').innerHTML='<p style="color:var(--muted)">加载中…</p>';
   let md;
   try{const r=await fetch('wiki/'+p.file);if(!r.ok)throw 0;md=await r.text()}
@@ -131,7 +167,7 @@ async function show(slug){
   const mer=[];
   md=md.replace(/```mermaid\n([\s\S]*?)```/g,(m,c)=>{mer.push(c);return `\n<div class="mermaid" data-k="${mer.length-1}"></div>\n`});
   marked.setOptions({gfm:true,breaks:false});
-  $('#doc').innerHTML=marked.parse(md);
+  $('#doc').innerHTML=`<div class="kicker">${esc((GROUPS.find(g=>g[1].includes(i+1))||[p.section])[0])} · 第 ${i+1} 篇</div><h1>${esc(p.title)}</h1>`+marked.parse(md);
   // 外链新窗口
   $('#doc').querySelectorAll('a[href^="http"]').forEach(a=>{a.target='_blank';a.rel='noopener'});
   $('#doc').querySelectorAll('a[href]').forEach(a=>{const h=a.getAttribute('href');if(!/^(https?:|#)/.test(h)){const s=document.createElement('span');s.innerHTML=a.innerHTML;s.style.borderBottom='1px dotted var(--muted)';a.replaceWith(s)}});

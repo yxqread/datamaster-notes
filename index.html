@@ -34,6 +34,8 @@ button{border:1px solid var(--line);background:var(--side);color:var(--fg);borde
 #side a.on{background:color-mix(in srgb,var(--accent) 14%,transparent);border-left-color:var(--accent);color:var(--accent);font-weight:600}
 #side a.hide,#side .grp.empty{display:none}
 #side .home-link{margin:0 0 6px;font-weight:600}
+main{margin-left:var(--w);padding:76px 40px 80px;display:flex;gap:48px;justify-content:center}
+article{flex:1 1 auto;min-width:0;max-width:960px}
 #toc{width:230px;flex:none;position:sticky;top:76px;align-self:flex-start;max-height:calc(100vh - 100px);overflow:auto;font-size:13px;line-height:1.5;border-left:2px solid var(--line);padding-left:12px}
 #toc a{display:block;color:var(--muted);padding:3px 0 3px 10px;margin-left:-12px;border-left:2px solid transparent}#toc a.l3{padding-left:22px}#toc a:hover{color:var(--accent);text-decoration:none}#toc a.on{color:var(--accent);border-left-color:var(--accent);font-weight:600}
 #toc b{display:block;margin-bottom:6px;color:var(--fg)}
@@ -136,7 +138,7 @@ function home(){
   <blockquote><p>这些笔记由 zread 自动生成，再经人工和代码逐条核对修订。每篇开头有「📖 小白导读」。标"推断"的是读代码得出、没有实际运行验证的判断。</p></blockquote>
   <p><b>从哪里开始？</b>第一次接触，按顺序读「入门指南」；只关心某个主题，用左侧列表或搜索框。</p>
   <div class="cards">`;
-  pages.forEach((p,i)=>h+=`<a class="card" href="#/${p.slug}"><small>${i+1} · ${esc(p.section)}</small><br>${esc(p.title)}</a>`);
+  pages.forEach((p,i)=>h+=`<a class="card" href="#/${p.slug}"><small>${i+1} · ${esc((GROUPS.find(g=>g[1].includes(i+1))||[p.section])[0])}</small><br>${esc(p.title)}</a>`);
   h+=`</div><p class="note">说明：本站仅为学习笔记，非 DataMaster 官方文档。文中的源码链接指向官方仓库提交 bdecba3，核对未实际运行代码。</p></div>`;
   $('#doc').innerHTML=h;$('#toc').innerHTML='';
   document.title='DataMaster 代码解读笔记';
@@ -157,6 +159,7 @@ async function show(slug){
   let md;
   try{const r=await fetch('wiki/'+p.file);if(!r.ok)throw 0;md=await r.text()}
   catch(e){$('#doc').innerHTML='<p>页面加载失败，请刷新重试。</p>';return}
+  md=md.replace(/\r\n?/g,'\n');
   // 站内链接：zread 的 [文字](slug) 或 (slug#anchor) -> #/slug
   const slugs=new Set(pages.map(x=>x.slug));
   const GH='https://github.com/sjtu-sai-agents/DataMaster/blob/bdecba346277bdad43c63e5003d4f9fe13689803/';

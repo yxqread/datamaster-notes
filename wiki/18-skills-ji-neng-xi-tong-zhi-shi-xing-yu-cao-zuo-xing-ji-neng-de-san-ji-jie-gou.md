@@ -366,13 +366,3 @@ Skills 系统在 EvoMaster 架构中处于 **工具层与 Agent 层之间** 的�
 - **与 [配置体系](22-pei-zhi-ti-xi-jie-xi-yaml-pei-zhi-mcp-json-yu-ren-wu-ji-pei-zhi-sheng-cheng) 的关系**：技能的加载和暴露完全由 YAML 配置驱动，`ConfigManager.get_agent_skills_config()` 负责解析和规范化配置，`BasePlayground._setup_tools()` 负责将配置转化为运行时的 `SkillRegistry` 和 `SkillTool` 实例。
 
 - **与 [二次开发](30-er-ci-kai-fa-zhi-nan-zhu-ce-zi-ding-yi-playground-exp-yu-agent) 的关系**：开发者可以通过在 `evomaster/skills/` 下创建新目录并编写 `SKILL.md` 来扩展 Agent 能力，无需修改框架核心代码。`skill-creator` 技能提供了完整的创建工具链。
-
-## 本文修订记录
-
-- 补充最重要的事实：DataMaster 的 agent 配置（`configs/data_master/config_base.yaml`）没有任何 `skills:` 键，`get_agent_skills_config` 因此返回空列表（`evomaster/config.py` L486-487），`use_skill` 不会暴露给任何 agent；这套机制存在但本项目没用到。已在文首导读中明确告知。
-- 原文把 Black agent 的 `skills: [...]` 配置示例和 `agents.red.skills` 时序图当作真实配置，实际是框架支持的写法；已加"示例/假设"标注。
-- 原文称全局 `skills.enabled` 控制是否启用技能系统，但代码只读 `skills_root`、从不读 `enabled`（`evomaster/core/playground.py` L442-446）；`skill_dir` 默认值在两处不一致（`config.py` L504 与 `playground.py` L417）；已改正并补充相对路径依赖当前目录。
-- 原文说 `create_subset` 在 `_setup_tools` 中使用，实际在 `SkillTool.get_description()`（`skill.py` L84-90）；元数据并非"始终在上下文"，而是仅当 `use_skill` 被暴露时才出现在工具描述里。
-- 原文称 Black/Red 通过 `operate-tools`、`memory-tools` 技能工作，实际走 MCP（`operate_submission`、`memory_tree`）；并补充 `evomaster/skills/*/scripts` 与 `playground/search_dataset_tools` 是已出现差异的拷贝（对比 `for_datanode.py`、`_submission_utils.py`）。
-- 技能清单（10 个 Python 技能 + 4 个飞书技能）与脚本有无已逐项对照目录，核对无误；补充小白导读与术语解释。
-- 未验证：`SkillTool` 不检查 `enabled_skills` 的实际可被触发情况；Black prompt 中 "skills catalog" 的来源（推断为措辞）。

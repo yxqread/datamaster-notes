@@ -149,13 +149,3 @@ Sources: [user_prompt.md](playground/data_master/prompts/red/user_prompt.md#L47-
 Data Pool 的设计精髓在于用一个**极简的目录约定 + 一个 JSON 索引**替代了复杂的数据库方案，却完整支撑了"发现—下载—注册—消费—反馈"的数据资产生命周期：物理层保证任何节点可按路径直接读取，逻辑层保证使用经验随搜索进程累积，共享工作区保证跨 Worker 的即时可见性，而红/黑节点的职责不对称（红创建、黑反馈）则让索引内容自然保持了信息完整性。
 
 若需继续深入，建议按以下路径阅读：理解 UCT 树如何决定红节点何时被选中与奖励如何计算，参见 [UCT 搜索算法：节点选择、奖励更新与衰减策略](9-uct-sou-suo-suan-fa-jie-dian-xuan-ze-jiang-li-geng-xin-yu-shuai-jian-ce-lue)；了解承载 `data_link.json` 的完整文件系统设计，参见 [Memory Tree：与 UCT 树对应的文件系统设计](12-memory-tree-yu-uct-shu-dui-ying-de-wen-jian-xi-tong-she-ji)；掌握作为 Data Pool 主要消费者的黑节点机制，参见 [三类节点实验：Initial、Black 与 Red 的职责划分](8-san-lei-jie-dian-shi-yan-initial-black-yu-red-de-zhi-ze-hua-fen)；检索工具的完整实现细节，参见 [数据集搜索工具集：HuggingFace / GitHub / Web / 学术检索](16-shu-ju-ji-sou-suo-gong-ju-ji-huggingface-github-web-xue-zhu-jian-suo)；验证红节点贡献的实验方法，参见 [组件消融实验：use_red_node / use_memory / black_mode 开关](29-zu-jian-xiao-rong-shi-yan-use_red_node-use_memory-black_mode-kai-guan)。
-
-## 本文修订记录
-
-- "Data Pool"在原文里像一个独立的双层架构组件；核对后改为如实说明：代码里没有 Data Pool 类/模块/服务（只有 README 的宣传用语），实际就是 `data_links/` 目录（`playground.py` 第 621 行的 `mkdir`）加 `memory_tree/data_link.json` 登记簿和 4 个 MCP 工具；两者之间无程序联动，`add_new_data` 不校验路径，`data_link.json` 也没有被任何代码自动读入提示词。依据 `memory_tree.py` 第 565-803 行、对 `playground/data_master` 的 `data_link` 检索。
-- 原文称 `working/` 每节点执行后重置；`_reset_working_dir` 在 data_master 中从未被调用，已删改并改图注。
-- 原文把 `visual_inspect_images_details/info` 当作真实工具介绍；全仓检索不存在这两个工具（只在 `search.md` 手册里出现），已改成"手册写了、代码没有"。
-- 补充 HuggingFace 工具的真实行为：`download_dataset` 无大小上限；`get_dataset_splits`、`get_dataset_sample` 用 `load_dataset` 会下载整套数据；沙箱代理 8899 无实现；JSON 中 `${HF_TOKEN}` 不会被展开（推断）。依据 `search_huggingface.py` 第 109-157、430-492、566-700 行。
-- 修正 `show_all_data` 的"最近 3 条评论"为"最早 3 条"（`comments[:3]`）；"input 只读""data_links 唯一可写""禁止泄露/大数据"均改为"提示词约定，代码不强制"。
-- 补充：`run_code_via_bash` 实际是读缓存或调用 `run_code_sync`；红节点只复制 template 不复制 dataloader；MCP 只初始化一次，三类节点同一套工具（`evomaster/core/playground.py` 第 580-586 行）；任务 yaml 无 `ablation` 段则红节点默认开启。
-- 未能验证：切分 workspace 时 `data_links/` 的可用性（未验证）；HF 令牌字面量对下载的实际影响（推断）。

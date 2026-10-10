@@ -356,14 +356,3 @@ Sources: [agent.py](evomaster/agent/agent.py#L80-L148), [agent.py](evomaster/age
 ---
 
 理解了 Agent 基类的对话管理和上下文截断机制后，建议继续阅读 [LLM 抽象层：多供应商接入与统一查询接口](20-llm-chou-xiang-ceng-duo-gong-ying-shang-jie-ru-yu-tong-cha-xun-jie-kou) 了解 `BaseLLM` 如何实现多供应商适配和 `ContextOverflowError` 的具体检测逻辑，以及 [会话与环境管理：LocalSession 与 Docker 隔离环境](21-hui-hua-yu-huan-jing-guan-li-localsession-yu-docker-ge-chi-huan-jing) 了解工具执行所依赖的 Session 层设计。如需了解 Agent 在 DataTree 搜索流程中的具体调用方式，可参考 [DataTree 搜索流程全解析：从初始化到并行搜索](7-datatree-sou-suo-liu-cheng-quan-jie-xi-cong-chu-shi-hua-dao-bing-xing-sou-suo)。
-
-## 本文修订记录
-
-- `latest_half` 说得不清：补充它丢弃前半段历史、不做摘要、不留提示，并给出 12 条消息的推演例子（`context.py` L197-232）；指出 `preserve_recent_turns` 对它无效、`preserve_system_messages` 全库无人读取（DataMaster 全部 Agent 用 `latest_half`，见 `config_base.yaml`）。
-- `finish` 与 `max_turns` 的状态判定：补充 `completed`/`failed(max_turns_exceeded)`/`waiting_for_input` 的触发条件、`task_completed` 不参与判定、DataMaster 不读取该状态；补充 `enable_final_turn` 在 Initial/Black/Red 中的实际用法，以及每次 `run()` 重建对话。
-- `ContextOverflowError`：原文说"12 种供应商模式"，实际是 12 条关键词，且仅 HTTP 413 或 400 才会判定；已改正。
-- 摘要策略：补充 `copy_agent` 后的 worker 没有注入摘要 LLM，会退回 `latest_half`（推断，未实测）。
-- `Agent._get_system_prompt` 调用 `session.get_workspace_path()`，而该方法只有 `LocalSession` 才有，Docker 模式会报错（推断，未实测）；示例工具名 `bash` 应为 `execute_bash`。
-- 轨迹文件：补充 `tool_calls` 以 `str()` 形式落盘、每步整文件重写；`raw_log.jsonl` 在 DataMaster 中不会产生（`DataTreePlayground.run` 不调用 `_setup_raw_log_file`）。
-- 补充小白导读与术语解释（token、上下文窗口、依赖注入、线程锁等）。
-- 未验证：长时间运行时轨迹文件重写是否成为瓶颈；Docker 模式下的实际报错；`summary` 策略在 worker 中的回退日志。

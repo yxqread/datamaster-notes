@@ -318,13 +318,3 @@ Sources: [playground.py](playground/data_master/core/playground.py#L1218-L1221),
 通过上述架构设计，DataTree 实现了一个高效、鲁棒的数据工程搜索引擎：UCT 算法保证搜索方向的质量导向，并行执行最大化资源利用，事件驱动扩展减少 Worker 空闲，多层级 buggy 处理策略避免过早终止和无限重试的极端情况。
 
 理解了搜索流程的全貌后，建议继续阅读 [三类节点实验：Initial、Black 与 Red 的职责划分](8-san-lei-jie-dian-shi-yan-initial-black-yu-red-de-zhi-ze-hua-fen) 深入了解各节点实验的具体实现，或阅读 [UCT 搜索算法：节点选择、奖励更新与衰减策略](9-uct-sou-suo-suan-fa-jie-dian-xuan-ze-jiang-li-geng-xin-yu-shuai-jian-ce-lue) 了解 UCT 算法的数学细节。
-
-## 本文修订记录
-
-- 原文把 Phase 2 描述为"UCT 驱动节点选择、弹出最高 UCT 节点"。实际 `select_next` 只在 Phase 1 被调用（playground.py:775），Phase 2 只 `pop_execution_node`；堆键 `(-uct, id)` 的 UCT 值入堆时算一次，新节点为 `inf`，实际按随机 id 出堆（uct.py:274-281）。已改正文字、两张 mermaid 图和设计决策表。
-- 原文称评分服务健康检查属于 `setup()`；实际在 `run()` 开头（:1141）和每个节点开头（:871）。同时补充了重启 runner 路径缺 `playground/` 一层会抛 `RuntimeError`（:190-196）。
-- 原文说"堆空且无活跃任务则退出"；`active_jobs` 只增不回零（:815/:843/:1074/:1092/:1119 加，:911 减），该退出条件在 Phase 2 实际不会满足，终止靠 `max_steps`（推断）。已补充，并说明 `max_steps` 数的是完成的节点数、并行会略超（推断）。
-- 衰减策略表补充了 piecewise 的分界点依赖当前步数（uct.py:1062-1072），step>=2 时 c 恒为 0.5（推断）；`inf - buggy_penalty` 仍为 `inf`，新节点的惩罚无效。
-- 原文"metric 缺失不等于 buggy"只对 `ingest_result` 成立；`build_review`（playground_helpers.py:63）已把 metric 为 None 算作 bug。已改正。
-- Agent 数量由"4 个"改为 5 个（含 `nouse`）；内置工具列表去掉未启用的 `str_replace_editor`；补充 initial 为 buggy 时仍批量扩展 6 个子节点、`fetch_child_memory` 的 Design 恒为空。
-- 补充小白导读与术语解释，并加了 Worker 共享同一 workspace 的提示（推断）。

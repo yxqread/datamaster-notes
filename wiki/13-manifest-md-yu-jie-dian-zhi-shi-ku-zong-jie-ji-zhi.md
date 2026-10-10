@@ -220,12 +220,3 @@ Sources: [memory_tree_implementation.md](playground/search_dataset_tools/memory_
 manifest 机制的本质，是将"探索经验"从易失的会话上下文转化为持久的、结构可寻址的、跨主体共享的文件资产。其实现呈现出教科书式的分层纪律：设计文档定义契约 → 核心模块管理文件系统 → MCP 接口暴露能力 → Playground 挂钩生命周期 → 提示词规范驱动使用行为。对二次开发者而言，最常见的扩展方向包括：为 manifest 增加语义检索（当前仅有 TL;DR 全量遍历式的 `get_all_manifest`）、引入文件锁解决并发写、或将 `parse_manifest` 的正则解析升级为更健壮的 Markdown AST 解析。
 
 理解了节点级知识库之后，自然的延伸路径有三：Memory Tree 的整体文件系统设计（storage 细节与目录布局）见 [Memory Tree：与 UCT 树对应的文件系统设计](12-memory-tree-yu-uct-shu-dui-ying-de-wen-jian-xi-tong-she-ji)；与 manifest 并列的 data_link 记录如何服务于红节点数据引入见 [Data Pool 与外部数据源引入](14-data-pool-yu-wai-bu-shu-ju-yuan-yin-ru-hong-jie-dian-shu-ju-xia-zai)；而 `use_memory` 开关如何量化验证记忆机制的贡献，见 [组件消融实验：use_red_node / use_memory / black_mode 开关](29-zu-jian-xiao-rong-shi-yan-use_red_node-use_memory-black_mode-kai-guan)。
-
-## 本文修订记录
-
-- 原文称 MCP 工具共 17 个（架构图和第二节），实际 `memory_tree_interface.py` 中 `@mcp.tool()` 共 19 个，改正；依据该文件的装饰器计数。
-- 原文暗示记忆会随提示词"静态注入"；核对后明确：注入的只有 `memory.md` 这份使用说明，manifest/全局记忆的内容不会被自动注入，只能靠 AI 调工具读（`exp/black_exp.py`、`red_exp.py`、`initial_exp.py` 只读入 `memory.md` 文本）。
-- 原文称 `fetch_child_memory` 拼接 `Design/Code/Results/Insight` 并含代码；实际默认不含代码，`Design` 取 `child.plan` 而各 exp 返回 `plan: ""`，恒为空，`Results` 是 stdout 末 500 字符；已改第八节正文与对比表。依据 `uct.py` 的 `fetch_child_memory`、`playground_helpers.py` 的 `build_review`、`exp/*.py` 的返回值。
-- 原文称 `get_next_recording_id` 决定新编号，实际它是死代码，编号由 `format_manifest` 每次重排；补充了 TL;DR 中 `#` 开头行会被丢弃、标题与提示词模板不一致（`# Manifest` vs ``# Manifest for `{node_id}` ``）。
-- 补充：所有工具返回纯文本字符串；MCP 只初始化一次，三类节点看到同一套工具（`evomaster/core/playground.py` 第 580-586 行）。
-- 未能验证：manifest 内容是否能"跨运行"复用（未验证）。

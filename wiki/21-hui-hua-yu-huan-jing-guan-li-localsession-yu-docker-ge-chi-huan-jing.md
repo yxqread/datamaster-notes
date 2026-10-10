@@ -325,14 +325,3 @@ Sources: [config_base.yaml](configs/data_master/config_base.yaml#L130-L204)
 当前架构为未来扩展预留了清晰的路径。`BaseSession` 和 `BaseEnv` 的抽象接口设计使得新增环境类型（如 `RemoteSession` / `KubernetesSession`）只需实现抽象方法即可接入。Env 模块下的 `bohrium.py` 已经展示了这一方向——它不是一种新的 Env，而是为 Bohrium 平台提供认证注入和存储配置的工具函数，通过 `get_bohrium_credentials`、`get_bohrium_storage_config` 和 `inject_bohrium_executor` 三个函数与 MCP 计算路径适配器协作。`k8s/run-mle.yaml` 则提供了一个 Kubernetes Pod 定义模板，展示了在集群环境中运行 GPU 任务的资源配置方式。
 
 理解了会话与环境管理机制后，建议继续阅读 [配置体系解析](22-pei-zhi-ti-xi-jie-xi-yaml-pei-zhi-mcp-json-yu-ren-wu-ji-pei-zhi-sheng-cheng) 以了解 Session 配置如何从 YAML 文件加载并被 ConfigManager 管理，以及 [Agent 基类](19-agent-ji-lei-dui-hua-guan-li-gui-ji-ji-lu-yu-shang-xia-wen-jie-duan-ce-lue) 以了解 Agent 如何通过 `self.session` 调用 Session 接口执行工具操作。
-
-## 本文修订记录
-
-- 补充 LocalSession 每条命令是新进程、`cd`/`export` 不保留，指出与 `execute_bash` 工具说明书的矛盾；补充超时返回 `-1`、`is_input` 报错、工作目录不存在时静默回退到当前目录（`evomaster/env/local.py` L417-537、`session/local.py` L122-177）。
-- Windows：`shell=True` 在 Windows 走 `cmd.exe`，`taskset` 被跳过，仓库本身仅支持 Linux（`pyproject.toml` L551）。
-- GPU 分配：yaml 注释写"每任务 2 卡"，而 `ResourceAllocator` 对 4 张卡、4 个并行槽是每槽 1 张（`env/local.py` L96-101 一带）；已指出。
-- DockerSession 缺 `get_workspace_path`：`Agent._get_system_prompt` 会调用它，Docker 模式下会报 `AttributeError`（`agent.py` L1222；推断，未实测）。
-- volume 重复挂载：`config_base.yaml` 已有 `/workspace` 挂载，`_update_workspace_path` 又追加一条（`playground.py` L278-279），可能导致 Docker 报重复挂载点、宿主侧读写落到错误目录（推断，未实测）。
-- Docker 单 tmux 会话被多线程共用时可能串扰（推断，未实测）；补充 `parallel_index` 的设置位置与适用范围。
-- 补充小白导读与术语解释；对比表中补充"DataMaster 默认用本地模式"。
-- 未验证：Docker 模式端到端实际表现、`evomaster/base:latest` 镜像是否自带 tmux。

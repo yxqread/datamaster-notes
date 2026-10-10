@@ -344,14 +344,3 @@ DataMaster 的提示词工程体现了以下核心设计原则：
 5. **前瞻性约束**：Free 模式中的"data-scalable algorithm"提示，将后续搜索阶段的约束前置到 Initial 节点的决策中
 
 要深入理解 DataTree 搜索流程中三类节点的完整协作机制，建议继续阅读 [三类节点实验：Initial、Black 与 Red 的职责划分](8-san-lei-jie-dian-shi-yan-initial-black-yu-red-de-zhi-ze-hua-fen) 和 [DataTree 搜索流程全解析：从初始化到并行搜索](7-datatree-sou-suo-liu-cheng-quan-jie-xi-cong-chu-shi-hua-dao-bing-xing-sou-suo)。如需了解 Agent 类的对话管理与上下文截断策略，请参阅 [Agent 基类：对话管理、轨迹记录与上下文截断策略](19-agent-ji-lei-dui-hua-guan-li-gui-ji-ji-lu-yu-shang-xia-wen-jie-duan-ce-lue)。
-
-## 本文修订记录
-
-- 补充小白导读，解释 prompt、占位符、`str.format()` 等术语。
-- 纠正：DataMaster 的 yaml 没有 `prompt_format_kwargs`，Agent 初始化时的第一次 format 因空字典被整个跳过，而不是"缺 key 保留原样"（agent.py:690-702、1181-1198）。
-- 纠正：prompt 路径是 `config_dir` 里 `configs` 换成 `playground` 后再拼相对路径，不是简单相对 `playground/data_master/`（evomaster/core/playground.py:889-904）。
-- 补充：`_get_user_prompt` 遇到任一缺失占位符会让整份 prompt 全部不替换并静默返回原文；被注入文本里的 `{node_id}` 不会二次替换；`red_exp.py:111` 的 `.format` 结果被丢弃，`search.md` 的 `{workspace}` 保持字面量。
-- 纠正/补充：`rule_based_black` 两个 prompt 从未被加载（RuleBlackExp 不用 prompt）；`initial_code.json` 无代码引用，原文"可批量注入"无依据；`--initial-code` 传文件路径、`--initial-instruction` 传文本。
-- 核对：Initial/Black/Red 的占位符全部被 `fmt` 提供；`metric/system_prompt.md` 并非空文件（内容为 "You are a helpful assistant."，无结尾换行）。
-- 补充：`--test-feedback` 的 `${PROJECT_ROOT}` 字面量路径会报错（playground.py:132-133）。
-- 未验证：`config_dir` 的 configs 换 playground 规则对其他目录布局是否成立（推断）。

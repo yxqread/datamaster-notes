@@ -313,16 +313,6 @@ sequenceDiagram
 
 Sources: [playground.py](playground/data_master/core/playground.py#L849-L960), [uct.py](playground/data_master/core/utils/uct.py#L646-L851)
 
-## 本文修订记录
-
-- **`active_jobs` 被讲成可靠的防死锁阀门**：原文表格自己就显示重复计数。按代码（`playground.py` 第 791、815、843、911、1074、1092、1119 行），phase 2 每个节点创建时 +1、弹出时又 +1、完成只 -1，净增，永远回不到 0。已改写该节，加入"initial 后建 6 个节点"的逐步计数例子，并说明"堆空且 active_jobs==0 则退出"在 phase 2 不会触发（推断，未实测）。原文表格漏写 phase 1 创建 initial 时的 +1，已补。
-- **`max_steps` 会多跑**：新增小节，说明检查在选节点前、`current_step` 在 `ingest_result` 末尾才加 1，并行时最多多跑约 `max_parallel - 1` 个节点（`playground.py` 第 751 行、`uct.py` 第 851 行）；并说明 `max_steps` 是完成节点数而非训练轮数。
-- **执行堆"最高 UCT 先出 / 先扩展先执行"**：原文错。新节点 UCT 为 `inf`，键 `(-inf, id)`，按随机 uuid 出堆（`uct.py` 第 274-281 行）。已在堆小节、阶段表格和 expand_node 说明中更正。
-- **退出条件**：原文把"堆空且无活跃任务"当作正常退出路径之一，已改为"代码里有但实际不会成立"。
-- **日志线程过滤**：原文称每个 Worker 会 `register_thread()`，但 DataMaster 重写的 `run()` 没调用它（只有基类 `run()` 调用，`evomaster/core/playground.py` 第 1294 行），过滤器对未登记线程直接放行，已更正。
-- **`_reset_working_dir`**：原文说它在每次节点执行前清理 `working/`，但 DataMaster 里从未调用，已更正，并提示共享 workspace 下可能互相覆盖提交文件（推断）。
-- **gpu_devices 注释**：yaml 原注释与列表内容不符，已加注。另补充了小白导读和术语解释。
-
 ## 相关页面
 
 - [UCT 搜索算法：节点选择、奖励更新与衰减策略](9-uct-sou-suo-suan-fa-jie-dian-xuan-ze-jiang-li-geng-xin-yu-shuai-jian-ce-lue) — 深入了解 UCT 值计算公式与衰减策略

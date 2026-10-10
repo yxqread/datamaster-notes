@@ -266,14 +266,3 @@ Sources: [visualization.html](playground/data_master/vis/templates/visualization
 Sources: [app.py](playground/data_master/vis/app.py#L1-L10), [vis_node_by_tree_with_grade.py](scripts/vis_node_by_tree_with_grade.py#L12-L26)
 
 完成搜索过程的可视化分析后，建议进一步了解 UCT 搜索算法本身的选择与奖励机制（参见 [UCT 搜索算法：节点选择、奖励更新与衰减策略](9-uct-sou-suo-suan-fa-jie-dian-xuan-ze-jiang-li-geng-xin-yu-shuai-jian-ce-lue)）、节点文件系统的组织方式（参见 [Memory Tree：与 UCT 树对应的文件系统设计](12-memory-tree-yu-uct-shu-dui-ying-de-wen-jian-xi-tong-she-ji)），以及评测服务器的配置方法（参见 [Grading Server：评测服务器部署、健康检查与 API 接口](24-grading-server-ping-ce-fu-wu-qi-bu-shu-jian-kang-jian-cha-yu-api-jie-kou)），这些知识将帮助你更深入地理解可视化中呈现的数据含义。
-
-## 本文修订记录
-
-- 补充小白导读，解释 run_dir、trajectory、验证集/测试集分数、线程池等概念，并补了"数据从哪来"（`node.json` 与单节点 json 由 `save_node_snapshot` 写出，playground_helpers.py:85-137）。
-- 纠正：原文提到的 `--force` 参数不存在，`main()` 里 `force` 恒为 False；docstring 里的 `--auto-grade/--force-grade` 也没实现（vis_node_by_tree_with_grade.py:`parse_args`、`main`）。
-- 纠正：`run_auto_grading` 只检查 `trajectories/task_0/grade_results.json`，只有 `load_grade_results` 才会读 `test/` 目录；submission 目录同样写死 `task_0`（该脚本 168-284 行附近）。
-- 纠正/补充：自动发现只匹配 `ml_master_*`，而 DataMaster 的默认目录是 `data_master_<时间戳>`（run.py:469），必须手动传 `--run-dir`；Grade 版默认去 `scripts/runs`，`main.py` 默认去当前目录的 `runs`。
-- 补充：`${DATA_ROOT}` 是字面量（疑为脱敏残留，推断）；打分时只传 `-s` 不传 `-g`，与第 24 篇的 subprocess 路径不一致。
-- 纠正：Python 版本说明改为以 `pyproject.toml` 的 `>=3.10` 为准。
-- 核对无误：节点颜色/形状表、Flask 四个接口、端口选择与 PID 文件逻辑、`enhanced` 模板未被任何入口引用。
-- 未验证：`grade.py` 缺少 `-g` 时的行为（仓库无该脚本）；trajectory 中 `agent_id` 的具体格式（只核对了匹配代码，未核对写入端）。

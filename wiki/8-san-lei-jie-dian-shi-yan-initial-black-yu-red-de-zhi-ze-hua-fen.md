@@ -204,13 +204,3 @@ Sources: [rule_black_exp.py](playground/data_master/core/exp/rule_black_exp.py#L
 | [base_datanode.json](configs/data_master/base_datanode.json#L1-L65) | Black/Red 节点的 MCP 服务器配置（含搜索套件） |
 
 理解三类节点的职责划分后，可以进一步阅读 [UCT 搜索算法：节点选择、奖励更新与衰减策略](9-uct-sou-suo-suan-fa-jie-dian-xuan-ze-jiang-li-geng-xin-yu-shuai-jian-ce-lue) 了解节点如何基于 UCT 值竞争执行优先级，或阅读 [组件消融实验：use_red_node / use_memory / black_mode 开关](29-zu-jian-xiao-rong-shi-yan-use_red_node-use_memory-black_mode-kai-guan) 了解如何通过开关验证各节点类型的实际贡献。若需理解 Black/Red 节点生成数据后的存储与复用机制，可参阅 [Memory Tree：与 UCT 树对应的文件系统设计](12-memory-tree-yu-uct-shu-dui-ying-de-wen-jian-xi-tong-she-ji) 与 [Data Pool 与外部数据源引入（红节点数据下载）](14-data-pool-yu-wai-bu-shu-ju-yuan-yin-ru-hong-jie-dian-shu-ju-xia-zai)。
-
-## 本文修订记录
-
-- 原文说 Phase 2 从 UCT 最大堆取"高价值节点"；实际堆键的 UCT 值入堆时算一次且新节点为 `inf`，等价于按随机 id 出堆（uct.py:274-281）。已改正。
-- 原文说 Black/Red"只能修改 dataloader"并暗示继承父 dataloader；实际只复制 template，dataloader 需 Agent 从零重写（仅 `RuleBlackExp` 复制，black_exp.py:90-103、rule_black_exp.py:136-142）。已改正并补充 dataloader 缺失时的兜底会把整段回复当代码。
-- 原文说 Red 与 Black 的搜索能力差异体现在 MCP 配置；实际两者都用 `$mcp_data_node`，且 MCP 只初始化一次，initial/black/red 看到同一套工具，只靠 prompt 区分。已改正。
-- 原文说 buggy 节点的子节点上限"收紧为 3"；实际只有已有子节点数达到 3 时才返回 `terminal`，否则仍补足 red/black（`_select_stages_batch`，playground.py:453-463）。已改正；补充关闭红节点后仍最多 5 个 black 子节点。
-- 补充消融配置的真实情况：`black_mode` 不在 `config_base.yaml` 模板里，已生成 yaml 无 `ablation` 段，`auto_config_exp.py` 会因缺 `use_red_node`/`use_memory` 抛 `KeyError`；`rule_based_black` 提示词从未被加载；test-feedback 模式因 `${PROJECT_ROOT}` 字面量会抛 `ValueError`。
-- 补充 `initial_code` 需通过 `--initial-code` 手动传入、`stage` 实际含 `initial`、`plan` 恒为空、`red_exp.py:111` 的 `format` 结果未被使用。
-- 补充小白导读与术语解释；"低频高价值"的设计动机解读已标（推断）。

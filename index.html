@@ -28,7 +28,7 @@ button{border:1px solid var(--line);background:var(--side);color:var(--fg);borde
 main{margin-left:var(--w);padding:76px 40px 80px;display:flex;gap:48px;justify-content:center}
 article{flex:1 1 auto;min-width:0;max-width:960px}
 #toc{width:230px;flex:none;position:sticky;top:76px;align-self:flex-start;max-height:calc(100vh - 100px);overflow:auto;font-size:13px;line-height:1.5;border-left:2px solid var(--line);padding-left:12px}
-#toc a{display:block;color:var(--muted);padding:3px 0}#toc a.l3{padding-left:12px}#toc a:hover{color:var(--accent);text-decoration:none}
+#toc a{display:block;color:var(--muted);padding:3px 0 3px 10px;margin-left:-12px;border-left:2px solid transparent}#toc a.l3{padding-left:22px}#toc a:hover{color:var(--accent);text-decoration:none}#toc a.on{color:var(--accent);border-left-color:var(--accent);font-weight:600}
 #toc b{display:block;margin-bottom:6px;color:var(--fg)}
 h1{font-size:2em;border-bottom:1px solid var(--line);padding-bottom:.3em;line-height:1.3}
 h2{font-size:1.5em;border-bottom:1px solid var(--line);padding-bottom:.3em;margin-top:2em}
@@ -101,7 +101,7 @@ function home(){
   cur=-1;
   let h=`<div class="home"><h1>DataMaster 代码解读笔记</h1>
   <p>这是对开源项目 <a href="https://github.com/sjtu-sai-agents/DataMaster" target="_blank" rel="noopener">DataMaster</a>（一个让 AI 自主做数据工程的框架）的代码讲解，共 ${pages.length} 篇。</p>
-  <blockquote><p>这些笔记由 zread 自动生成，再经人工和代码逐条核对修订。每篇开头有「📖 小白导读」，结尾有「本文修订记录」，写明改了什么、依据哪段代码。标"推断"的是读代码得出、没有实际运行验证的判断。</p></blockquote>
+  <blockquote><p>这些笔记由 zread 自动生成，再经人工和代码逐条核对修订。每篇开头有「📖 小白导读」。标"推断"的是读代码得出、没有实际运行验证的判断。</p></blockquote>
   <p><b>从哪里开始？</b>第一次接触，按顺序读「入门指南」；只关心某个主题，用左侧列表或搜索框。</p>
   <div class="cards">`;
   pages.forEach((p,i)=>h+=`<a class="card" href="#/${p.slug}"><small>${i+1} · ${esc(p.section)}</small><br>${esc(p.title)}</a>`);
@@ -112,7 +112,7 @@ function home(){
   scrollTo(0,0);
 }
 
-async function show(slug,anchor){
+async function show(slug){
   const i=pages.findIndex(p=>p.slug===slug);
   if(i<0)return home();
   cur=i;const p=pages[i];
@@ -130,13 +130,8 @@ async function show(slug,anchor){
     return `](${GH}${s.replace(/^\.?\//,'')}${a||''})`;});
   const mer=[];
   md=md.replace(/```mermaid\n([\s\S]*?)```/g,(m,c)=>{mer.push(c);return `\n<div class="mermaid" data-k="${mer.length-1}"></div>\n`});
-  const toc=[];
-  const rd=new marked.Renderer();
-  rd.heading=function(t,l){const text=typeof t==='object'?t.text:t;const lv=typeof t==='object'?t.depth:l;
-    const id=slugify(text);if(lv>=2&&lv<=3)toc.push([lv,id,text.replace(/<[^>]+>/g,'')]);
-    return `<h${lv} id="${id}">${text}</h${lv}>`};
   marked.setOptions({gfm:true,breaks:false});
-  $('#doc').innerHTML=marked.parse(md,{renderer:rd});
+  $('#doc').innerHTML=marked.parse(md);
   // 外链新窗口
   $('#doc').querySelectorAll('a[href^="http"]').forEach(a=>{a.target='_blank';a.rel='noopener'});
   $('#doc').querySelectorAll('a[href]').forEach(a=>{const h=a.getAttribute('href');if(!/^(https?:|#)/.test(h)){const s=document.createElement('span');s.innerHTML=a.innerHTML;s.style.borderBottom='1px dotted var(--muted)';a.replaceWith(s)}});
@@ -150,17 +145,36 @@ async function show(slug,anchor){
   // 翻页
   const pv=pages[i-1],nx=pages[i+1];
   $('#doc').insertAdjacentHTML('beforeend',`<div class="pager">${pv?`<a href="#/${pv.slug}"><small>← 上一篇</small>${esc(pv.title)}</a>`:'<span></span>'}${nx?`<a class="r" href="#/${nx.slug}"><small>下一篇 →</small>${esc(nx.title)}</a>`:'<span></span>'}</div>`);
-  $('#toc').innerHTML=toc.length?'<b>本页目录</b>'+toc.map(([l,id,t])=>`<a class="l${l}" href="#/${slug}~${id}">${esc(t)}</a>`).join(''):'';
+  buildToc();
   document.title=p.title+' · DataMaster 代码解读笔记';
   $('#side').classList.remove('open');
-  if(anchor){const e=document.getElementById(anchor);if(e)e.scrollIntoView()}else scrollTo(0,0);
+  scrollTo(0,0);
+}
+
+let spy=null;
+function buildToc(){
+  if(spy){removeEventListener('scroll',spy);spy=null}
+  const hs=[...document.querySelectorAll('#doc h2,#doc h3')];
+  hs.forEach((h,i)=>h.id='sec-'+i);
+  const toc=$('#toc');
+  if(!hs.length){toc.innerHTML='';return}
+  toc.innerHTML='<b>本页目录</b>'+hs.map((h,i)=>`<a class="l${h.tagName[1]}" data-t="sec-${i}" href="javascript:void 0">${esc(h.textContent)}</a>`).join('');
+  const links=[...toc.querySelectorAll('a')];
+  links.forEach(a=>a.onclick=e=>{e.preventDefault();const t=document.getElementById(a.dataset.t);if(t){t.scrollIntoView({behavior:'smooth',block:'start'});mark(a.dataset.t)}});
+  function mark(id){links.forEach(a=>a.classList.toggle('on',a.dataset.t===id));
+    const on=toc.querySelector('a.on');if(on){const r=on.getBoundingClientRect(),t=toc.getBoundingClientRect();if(r.top<t.top||r.bottom>t.bottom)toc.scrollTop+=r.top-t.top-40}}
+  let ticking=false;
+  spy=()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{ticking=false;
+    let cur=hs[0].id;for(const h of hs){if(h.getBoundingClientRect().top<=90)cur=h.id;else break}
+    if(scrollY+innerHeight>=document.documentElement.scrollHeight-4)cur=hs[hs.length-1].id;
+    mark(cur)})};
+  addEventListener('scroll',spy,{passive:true});spy();
 }
 
 function route(){
   const h=decodeURIComponent(location.hash.replace(/^#\/?/,''));
   if(!h)return home();
-  const [slug,anchor]=h.split('~');
-  show(slug,anchor);
+  show(h.split('~')[0]);
 }
 addEventListener('hashchange',route);
 

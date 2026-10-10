@@ -625,14 +625,3 @@ Sources: [uct.py](playground/data_master/core/utils/uct.py#L496-L534), [playgrou
 ---
 
 理解了 UCT 搜索算法的核心机制后，建议继续阅读 [并行执行机制：Worker 循环与事件驱动节点扩展](10-bing-xing-zhi-xing-ji-zhi-worker-xun-huan-yu-shi-jian-qu-dong-jie-dian-kuo-zhan) 以深入了解 Phase 2 的并行调度细节，或阅读 [ML-Master 基线：MCTS 智能体与解决方案树设计](27-ml-master-ji-xian-mcts-zhi-neng-ti-yu-jie-jue-fang-an-shu-she-ji) 对比两种 UCT 实现的架构差异。
-
-## 本文修订记录
-
-- **buggy 未访问节点的惩罚**：原文说 `inf - 1000` 使 buggy 新节点"不会抢占非 buggy 节点"，这是错的，`inf - 1000` 仍是 `inf`（`uct.py` 第 415-445 行 `uct_value`）。已改正，并说明该分支实际几乎走不到（buggy 标记发生在回传之后，`visits` 已 ≥ 1，推断）。
-- **执行堆"按 UCT 优先级调度"**：原文错。堆键为 `(-uct, node.id)`，push 时算一次，新节点 uct 均为 `inf`，实际按随机 uuid 字典序出堆（`uct.py` 第 274-281 行）。已重写该节并同步修改 phase 2 与全景图的描述。
-- **`select_next` 的调用位置**：补充说明它只在 phase 1 被 `_handle_phase1` 调用（`playground.py` 第 775 行），phase 2 只 `pop_execution_node`。
-- **piecewise 衰减**：原文只讲公式并认为"衰减过早开始"。已按代码手算 t=0,1,2,10,45,150 时 c 分别为 1.414、1.404、0.5、0.5、0.5、0.5，并解释 `t` 与 `t1/t2` 同源导致 c 从第 2 步起恒为 0.5，且 c 在 phase 2 并不被用到（`uct.py` 第 1050-1088 行）；补充 `UCTDecayConfig()` 用默认值、yaml 不可覆盖。
-- **dynamic_piecewise**：补充按当前调用方式它会退化为下限 0.5（手工推演，已标推断）。
-- **"metric 缺失不等于 buggy"**：原文漏了 `build_review` 里 `is_bug or metric is None` 的上游处理，已改为准确说法（`playground_helpers.py`）。
-- **phase 2 的"无活跃任务则结束"**：补充说明 `active_jobs` 实际不归零，该退出条件不会触发（推断，未实测）。
-- 另补充了小白导读、术语解释，以及 `_check_metric_valid` 在指标为 0 时的特殊分支提示。

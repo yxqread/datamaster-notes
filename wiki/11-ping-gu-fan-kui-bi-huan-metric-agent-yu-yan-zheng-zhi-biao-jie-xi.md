@@ -209,14 +209,3 @@ Sources: [config_base.yaml](configs/data_master/config_base.yaml#L123-L141), [uc
 ## 小结
 
 评估反馈闭环的本质是一个**三层递进的信任体系**：最外层是 Metric Agent 的自由判断（从混乱 stdout 中提炼五个字段），中间层是 `parse_metric_content` / `build_review` 的结构化约束（解析失败与指标缺失都归入 bug 通道），最内层是 `ingest_result` 的多重防护（方向冲突、异常放大、grader 可用性区分）。这种分层设计使得单点失败——无论是 LLM 输出格式漂移、网络超时还是评分服务宕机——大多被限制为弱信号而不至于扭曲整棵搜索树的奖励分布。不过也有漏网之处：指标为 0 时的有效性检查几乎不起作用（见上文），`summary` 实际用的是 stdout 末尾而非 Metric Agent 的摘要。理解这条闭环后，建议继续阅读 [Memory Tree：与 UCT 树对应的文件系统设计](12-memory-tree-yu-uct-shu-dui-ying-de-wen-jian-xi-tong-she-ji) 了解节点执行结果如何沉淀为跨任务知识，或阅读 [三类节点实验：Initial、Black 与 Red 的职责划分](8-san-lei-jie-dian-shi-yan-initial-black-yu-red-de-zhi-ze-hua-fen) 回看闭环上游的实验组织方式。
-
-## 本文修订记录
-
-- **`summary` 来源**：原文把 Metric Agent 的"2-3 句摘要"当作 summary。实际 `build_review` 取的是 stdout 最后 500 个字符，Metric Agent 返回的 summary 被丢弃（`playground_helpers.py` 的 `build_review`）；并补充了它如何经 `node.analysis` 进入后续提示词，以及 `Design:` 行恒为空（各 exp 返回 `plan: ""`）。
-- **指标为 0 的 `_check_metric_valid` 分支**：原文只写"任一为 0 时退化为差值判断"。已补充代码、解释为何差值阈值 100 对 0 几乎不设防，并给出崩溃输出 0 分被当成正常低分的例子；对"越小越好"指标补充了 0 会成为 best 的后果（`uct.py` 第 906-916 行、`_get_node_reward`，推断，未实测）。
-- **方向冲突**：补充 best_node 为空时不检查、第一个成功节点定方向，以及 `lower_is_better=null` 时默认 maximize（`uct.py` `ingest_result` 与 `MetricReview.__post_init__`）。
-- **"核心修复 1"**：原文称 metric 缺失不再等同于 buggy。实际上游 `build_review` 已把 metric 缺失算成 is_bug，已更正。
-- **test-feedback 模式**：原文把它写成可用功能。实际 `_create_test_metric_agent` 传字面量 `${PROJECT_ROOT}/...` 且无 `config_dir`，`Agent.__init__` 会抛 `ValueError`（`playground.py` 第 116-141 行、`agent.py` 第 673 行）；并补充它会把测试集分数带入搜索。
-- **`grade_code_sync`**：原文的"双通道"改为"先试写死的 7777 端口，仓库中无该服务实现，实际总回落到 subprocess"，并修正了 Sources 行号（实际在 `_submission_utils.py` 第 1147、1259、1384 行附近）。
-- **grading server 重启**：补充 `_start_grading_server_process` 的 runner 路径缺 `playground/` 一层会抛错，以及 `/tmp/submission_to_validate.csv` 写死的文件名。
-- 另补充了小白导读和术语解释。

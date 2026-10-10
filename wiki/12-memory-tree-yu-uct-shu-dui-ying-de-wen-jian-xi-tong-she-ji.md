@@ -410,13 +410,3 @@ Sources: [SKILL.md](evomaster/skills/memory-tools/SKILL.md#L1-L110), [memory_cli
 Memory Tree 的设计体现了 DataMaster 框架的核心哲学：将搜索过程中的知识显式持久化为可审计的文件系统结构，同时通过 MCP 工具赋予 Agent 自主读写记忆的能力。这种"系统自动保存 + Agent 主动总结"的双层记忆机制，使得搜索过程中的知识不会随节点执行结束而丢失，而是累积为可被后续节点利用的结构化资产。
 
 理解了 Memory Tree 的文件系统设计与工具接口后，建议继续阅读 [manifest.md 与节点知识库总结机制](13-manifest-md-yu-jie-dian-zhi-shi-ku-zong-jie-ji-zhi) 以深入了解 Agent 如何利用 manifest 格式组织探索知识，以及 [Data Pool 与外部数据源引入](14-data-pool-yu-wai-bu-shu-ju-yuan-yin-ru-hong-jie-dian-shu-ju-xia-zai) 以了解 `data_link.json` 如何与红节点的数据下载流程联动。
-
-## 本文修订记录
-
-- 原文把"系统自动注入的 child memory 摘要"和"manifest 笔记"说成互补的同一体系；核对后明确拆成路径 A（`fetch_child_memory`，由内存里的 `UCTNode` 字段拼成，不读磁盘文件）和路径 B（AI 主动调工具）。全局记忆、manifest 不会自动进提示词；`fetch_child_memory` 的 Design 恒为空（各 exp 返回 `plan: ""`），默认不含代码，Results 只是 stdout 末尾 500 字符。依据 `uct.py` 的 `fetch_child_memory`、`playground_helpers.py` 的 `build_review`、`exp/*.py`。
-- 原文称 recording ID"从 1 递增"、`append` 返回新 ID；实际 `format_manifest` 每次重排编号，删除中间条目会让后面编号前移，`get_next_recording_id` 为死代码，返回值只是"Successfully updated manifest"。依据 `memory_tree_interface.py` 第 133-178 行及各工具函数。
-- 原文称关闭 `use_memory` 后 AI"无法通过 MCP 工具读写 manifest"，不准确：写入会通过 `mkdir(parents=True)` 和兜底路径落到平铺目录。依据 `memory_tree.py` 的 `get_node_memory_path`、`write_node_manifest`。
-- 修正 CLI 子命令数 18 改为 19；`memory-tools` 下的 interface 是去掉 MCP 装饰器的改写版而非"副本"，且 DataMaster 的 agent 配置没有 `skills:`，该目录未被使用。
-- 修正映射表：`plan` 恒为空、Memory Tree 不存指标、`fetch_child_memory` 与 `manifest.md` 无代码联系；修正代码片段注释（`fetch_child_memory` 是"UCT 树到提示词"，不是"到 Memory Tree"）。
-- 补充：`show_all_data` 的"最多 3 条评论"实为最早的 3 条（`comments[:3]`）；root 节点无文件夹；global_memory/data_link 惰性创建；MCP 实际只按第一个带 MCP 配置的 agent 初始化一次，三类节点看到同一套工具（`evomaster/core/playground.py` 第 580-586 行）；切分 workspace 时 memory_tree 仍建在主 workspace（推断）。
-- 未能验证：`tree` 命令多个 `-I` 参数的具体行为；并发下 BFS 的竞态（已标推断）。

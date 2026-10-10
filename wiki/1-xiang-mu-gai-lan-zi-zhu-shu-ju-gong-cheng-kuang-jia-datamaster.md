@@ -186,11 +186,3 @@ Sources: [README.md](README.md#L49-L67), [README.md](README.md#L194-L208), [data
 - [组件消融实验](29-zu-jian-xiao-rong-shi-yan-use_red_node-use_memory-black_mode-kai-guan) 与 [二次开发指南](30-er-ci-kai-fa-zhi-nan-zhu-ce-zi-ding-yi-playground-exp-yu-agent) 面向希望开展研究或定制工作流的读者
 
 对于时间有限的读者，最小必读集合是：本页 → [快速开始](2-kuai-su-kai-shi-yun-xing-di-ge-datatree-sou-suo-ren-wu) → [EvoMaster 三层架构](6-evomaster-san-ceng-jia-gou-playground-exp-agent) → [DataTree 搜索流程全解析](7-datatree-sou-suo-liu-cheng-quan-jie-xi-cong-chu-shi-hua-dao-bing-xing-sou-suo)。这四页将带你从"知道它是什么"走到"看懂它在做什么"。
-
-## 本文修订记录
-- 原文称 `run.py` 通过装饰器注册 `DataTreePlayground`；实际装饰器在 `playground/data_master/core/playground.py:44`，`run.py` 的 `auto_import_playgrounds()` 只负责导入模块触发注册。已改正。
-- 原文"红节点上限 1、黑节点上限合计 6"表述含糊；`UCTSearchConfig` 为 `num_black=5`、`num_red=1`（uct.py:116-117），已改为"黑 5 + 红 1 = 子节点总数 6"；并补充 buggy 节点上限 3（uct.py:400，注释写 2 但代码为 3）。
-- 补充：开源版没有 PostTrainBench 代码（README Roadmap "Coming soon"）；仅支持 Linux（pyproject.toml:551）。
-- 补充消融开关默认值（playground.py:76-78 附近）及"75 份 YAML 不含 ablation 段"；`--test-feedback` 的已知问题；`${VAR}` 只在主 YAML 展开。
-- `skills/` 目录标注为 DataMaster 未实际使用；"ML-Master 是排行榜知名基线"标为未验证；论文标题与 arXiv 编号只核对了 README 的引用条目。
-- 新增小白导读与 agent、UCT/MCTS、MCP、baseline、ablation、环境变量等术语解释。

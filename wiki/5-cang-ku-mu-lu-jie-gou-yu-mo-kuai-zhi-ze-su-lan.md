@@ -338,12 +338,3 @@ Sources: [run.py](run.py#L254-L272), [playground/data_master/core/playground.py]
 2. **跟踪核心搜索流程** → [DataTree 搜索流程全解析：从初始化到并行搜索](7-datatree-sou-suo-liu-cheng-quan-jie-xi-cong-chu-shi-hua-dao-bing-xing-sou-suo) — 从 `DataTreePlayground.run()` 入口跟踪完整执行路径
 3. **了解节点类型** → [三类节点实验：Initial、Black 与 Red 的职责划分](8-san-lei-jie-dian-shi-yan-initial-black-yu-red-de-zhi-ze-hua-fen) — 深入 `playground/data_master/core/exp/` 下的四个 Exp 实现
 4. **掌握工具链** → [operate_submission：代码管理、执行与提交校验流水线](15-operate_submission-dai-ma-guan-li-zhi-xing-yu-ti-jiao-xiao-yan-liu-shui-xian) — 理解 Agent 如何通过 MCP 工具与代码和评测系统交互
-
-## 本文修订记录
-- `base_all.json` 的 MCP 服务器数写成 6，实际是 7（operate_submission_for_initial、operate_submission、memory_tree、四个搜索）；`skills/` 写成 11 个技能包，实际目录为 10 个；`env/` 下没有 `BohriumEnv` 类（bohrium.py 是认证配置，k8s 只有一个 yaml）。已更正。
-- 原文称 mle-bench 的评测服务器有 `/grade` 端点并计算分数；实际 `environment/grading_server.py` 与内嵌版都只有 `/validate`、`/health`，只校验格式（grading_server.py:47-61）。已改正并修正数据流图。
-- 原文说 data_master 与 ml_master 共享 grading.py、uct.py 等；实际 ml_master 有自己的 `core/utils/` 副本。ml_master 的 agent 是 4 个（含 metric）而不是 3 个。已改正。
-- 原文称 `initial_code.json` 供 Playground 运行时直接取用，仓库无引用；`--initial-code` 吃文件路径。已改正。
-- 补充：MCP JSON 不展开 `${VAR}`、MCP 工具只按 `nouse` 初始化一次、`rule_based_black` prompt 未被加载、`auto_config_exp.py`/`get_metric_direction.py` 的已知问题、UCT 实际出堆顺序与退出条件。
-- 行数（pyproject 552→551、BasePlayground 1463→约 1462、config_base 286→约 285）为 `wc -l` 的小偏差，已微调。
-- 新增小白导读及 Session、tool、token、vendored、Flask、PS1 等术语解释。

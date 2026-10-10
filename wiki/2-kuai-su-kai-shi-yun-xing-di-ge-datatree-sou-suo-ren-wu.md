@@ -223,12 +223,3 @@ Sources: [run.py](run.py#L460-L462)、[playground.py](playground/data_master/cor
 3. **读懂搜索树如何长出来** → [UCT 搜索算法：节点选择、奖励更新与衰减策略](9-uct-sou-suo-suan-fa-jie-dian-xuan-ze-jiang-li-geng-xin-yu-shuai-jian-ce-lue)
 4. **深入评测环节** → [评估反馈闭环：Metric Agent 与验证指标解析](11-ping-gu-fan-kui-bi-huan-metric-agent-yu-yan-zheng-zhi-biao-jie-xi)
 5. **掌握可视化分析** → [搜索过程可视化：DataTree 交互式树分析与分数对照](25-sou-suo-guo-cheng-ke-shi-hua-datatree-jiao-hu-shi-shu-fen-xi-yu-fen-shu-dui-zhao)
-
-## 本文修订记录
-- 原文称 grading server 会被自动拉起、"无需手动启动"；代码里 runner 路径缺了 `playground/` 一层（playground.py:195-201，`project_root = parents[3]`），自动拉起会抛 RuntimeError。已改写并建议手动启动。
-- 原文称每个 Worker 在自己的 workspace 子目录里工作；默认 `split_workspace_for_exp: false`，4 个 Worker 共用同一 workspace（playground.py:409-417）。已改正，并补充 Worker 是线程、`max_steps` 的含义。
-- 原文把单任务产物写成 `runs/.../workspace/`；`run.py` 单任务也传 `task_id="task_0"`，实际是 `workspaces/task_0/`（run.py:536-540 与 vis 脚本 :186）。已改正。
-- 补充 `${VAR}` 只在主 YAML 展开、未设置变量静默变空串；补充 `--test-feedback` 已知缺陷；`auto_config_exp.py` 模板占位符缺失会抛 KeyError（读代码得出，未实测）。
-- 补充 `nouse` 槽位实际决定 MCP 初始化；75 份任务 YAML 不含 ablation 段。
-- 未验证：缺少搜索 API Key 时红节点的具体行为；`--test-feedback` 与 auto_config_exp 报错均未实际运行。
-- 新增小白导读及 LLM、YAML、环境变量、symlink、worker、stdout、prompt、MCP 等术语解释。

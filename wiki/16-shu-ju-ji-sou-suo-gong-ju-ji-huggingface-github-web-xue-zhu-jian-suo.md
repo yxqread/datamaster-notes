@@ -293,13 +293,3 @@ Sources: [mcp_config4data.json](configs/ml_master/mcp_config4data.json#L1-L53), 
 Sources: [base_datanode.json](configs/data_master/base_datanode.json#L1-L64), [data_node_aerial-cactus-identification.json](configs/data_master/json_configs/aerial-cactus-identification/data_node_aerial-cactus-identification.json#L1-L64)
 
 了解搜索工具的全貌后，建议继续阅读 [Agent 内置工具（Bash / Editor / Think / Finish）与 MCP 协议集成](17-agent-nei-zhi-gong-ju-bash-editor-think-finish-yu-mcp-xie-yi-ji-cheng) 以深入理解 MCPTool 的底层执行机制，或阅读 [Data Pool 与外部数据源引入（红节点数据下载）](14-data-pool-yu-wai-bu-shu-ju-yuan-yin-ru-hong-jie-dian-shu-ju-xia-zai) 了解下载的数据如何被整合到实验流程中。
-
-## 本文修订记录
-
-- 原文称 `GITHUB_TOKEN` 为空时 GitHub API"仍可工作，只受未认证速率限制"，错误：`get_github_client` 用 `if not token` 判断，空串同样抛 `ValueError`，各工具的 `except` 会把它作为错误文字返回，GitHub 工具实际不可用。JSON 中该值写死为 `""`，且不是 `${VAR}` 占位符。依据 `search_github.py` 第 185-193 行与 `base_datanode.json`。
-- 原文称各凭证"均通过 `${VAR_NAME}` 引用运行时环境变量"；MCP 的 JSON 直接 `json.load`，没有展开（`${VAR}` 只在主 yaml 里展开，`evomaster/config.py` 的 `_substitute_env`），子进程很可能收到字面量（推断，未实测）。
-- `search.md` 介绍的 `visual_inspect_images_details/info` 在仓库里不存在，已在正文中注明（全仓检索 `visual_inspect` 无实现）。
-- 补充 HuggingFace 的真实行为：`download_dataset` 无大小上限、只有沙箱调用才有 600 秒超时；`get_dataset_splits`/`get_dataset_sample` 会 `load_dataset` 下载整套数据；沙箱代理 8899 无实现（推断）；`search_datasets` 文档说排除 gated 数据集但回退代码并未过滤；工具返回值格式。依据 `search_huggingface.py` 第 59-70、109-157、236-492、566-770 行。
-- 补充：MCP 只初始化一次，四个搜索服务对所有节点可见；`evomaster/skills/dataset-search-tools` 的 CLI 脚本导入路径存在问题（推断，未运行）且该 skills 在 DataMaster 中未启用；`search.md` 中 `new_data` 与 `data_links` 的矛盾；MCP 超时报错信息始终写 1800 秒（`mcp.py` 第 176-185 行）。
-- 修正流程图中把 ml_master 的 `mcp_config4data.json` 当成 DataMaster 配置的写法。
-- 未能验证：GitHub `_build_query` 用 `+` 拼接后经 `requests` 的 `params` 编码是否影响限定符语义（未验证）；HF 令牌字面量对实际下载的影响（推断）。

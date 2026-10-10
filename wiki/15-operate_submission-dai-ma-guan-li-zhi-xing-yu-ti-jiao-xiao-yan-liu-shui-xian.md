@@ -287,13 +287,3 @@ Sources: [tools_manual.md](playground/search_dataset_tools/tools_manual.md#L1-L1
 | `README.md` | 分离模式设计文档 | — |
 
 这套工具链是 DataMaster 框架中 Agent 与评测系统之间的唯一桥梁。理解其工作原理，对于掌握 [三类节点实验的职责划分](8-san-lei-jie-dian-shi-yan-initial-black-yu-red-de-zhi-ze-hua-fen) 和 [评估反馈闭环](11-ping-gu-fan-kui-bi-huan-metric-agent-yu-yan-zheng-zhi-biao-jie-xi) 至关重要。如需了解 Grading Server 的部署细节，请参阅 [Grading Server 评测服务器部署](24-grading-server-ping-ce-fu-wu-qi-bu-shu-jian-kang-jian-cha-yu-api-jie-kou)；如需了解 MCP 协议在 Agent 框架中的集成方式，请参阅 [Agent 内置工具与 MCP 协议集成](17-agent-nei-zhi-gong-ju-bash-editor-think-finish-yu-mcp-xie-yi-ji-cheng)。
-
-## 本文修订记录
-
-- 原文称三套实现共享 `_submission_utils.py`，图中也画了连线；核对后旧版 `operate_submission.py` 没有导入它，且仓库配置未引用它，已改正文与架构图。依据 `operate_submission.py` 的 import 与全仓检索。
-- 原文称 GPU 选择是"三级优先"，实际是"外部已设 `CUDA_VISIBLE_DEVICES` 则尊重，否则选显存占用率最低的一张"；补充 tmux 命名约定（`N_gpu`、旧逻辑 `flag`→5）、每次只给一张卡、无 GPU 时静默跳过；`taskset` 参数是核心列表而非掩码；CPU/GPU 选择、`/proc/stat`、`os.killpg` 都是 Linux 专属。依据 `_submission_utils.py` 第 185-356、818-915 行。
-- 补充 `run_code` 的返回格式、超时时的提前返回（不写缓存、不改名提交文件）、MCP 调用总超时 5400/1800 秒（`mcp.py` 第 176-181 行）、手册写 300 秒但工具默认 3600 秒、`run_code_sync` 默认 300 秒。
-- 原文称 `grade_code` 的 HTTP 通道"非阻塞、支持并发"；核对后仓库里没有 7777 端口服务的实现，健康检查要求 `"healthy"` 而随仓库的评分服务返回 `"running"`，实际总是 subprocess 通道（推断）；补充了 subprocess 的具体做法、返回格式，以及 `validate_submission` 只校验格式不给分数、只取第一个 grading server URL、临时文件固定为 `/tmp/submission_to_validate.csv`。
-- 原文称"其他代码文件会被系统自动清理"；代码里未找到清理逻辑，已标注未验证。原文说黑/红节点绑定 `for_datanode`；实际 MCP 只初始化一次，三类节点同一套工具（`evomaster/core/playground.py` 第 580-586 行）。
-- 补充：JSON 中 `${DATA_ROOT}` 不会被展开，可能导致评分与重启评分服务器失败（推断，未实测）；`evomaster/skills/operate-tools` 在 DataMaster 中未启用且已与原文件不同；`_submission_utils.py` 行数应为 1447。
-- 未能验证：`dataloader` 中使用 pandas 等库是否依赖 template 的 import（未验证）；`grade_code_sync` 在默认流程中是否被调用（未验证）。

@@ -1,0 +1,225 @@
+{
+ "id": "2026-10-10-163448",
+ "generated_at": "2026-10-10T08:34:48.322875Z",
+ "language": "zh",
+ "pages": [
+  {
+   "slug": "1-xiang-mu-zong-lan-zhi-neng-ti-qu-dong-de-sft-yan-jiu-bi-huan-autosft-shi-shi-yao-wei-shi-yao-cun-zai",
+   "title": "项目总览：智能体驱动的 SFT 研究闭环（AutoSFT 是什么、为什么存在）",
+   "file": "1-xiang-mu-zong-lan-zhi-neng-ti-qu-dong-de-sft-yan-jiu-bi-huan-autosft-shi-shi-yao-wei-shi-yao-cun-zai.md",
+   "section": "快速上手",
+   "level": "Beginner"
+  },
+  {
+   "slug": "2-kuai-su-kai-shi-huan-jing-zhun-bei-codex-cli-pei-zhi-yu-shou-ci-zhi-neng-ti-yun-xing-commit-sh-qi-dong-zhi-nan",
+   "title": "快速开始：环境准备、Codex CLI 配置与首次智能体运行（commit.sh 启动指南）",
+   "file": "2-kuai-su-kai-shi-huan-jing-zhun-bei-codex-cli-pei-zhi-yu-shou-ci-zhi-neng-ti-yun-xing-commit-sh-qi-dong-zhi-nan.md",
+   "section": "快速上手",
+   "level": "Beginner"
+  },
+  {
+   "slug": "3-ben-di-ji-xian-mo-shi-chi-xian-yuan-shi-chi-gou-jian-yu-wu-wang-luo-jian-suo-yun-xing-commit_local_baseline-sh-liu-cheng",
+   "title": "本地基线模式：离线原始池构建与无网络检索运行（commit_local_baseline.sh 流程）",
+   "file": "3-ben-di-ji-xian-mo-shi-chi-xian-yuan-shi-chi-gou-jian-yu-wu-wang-luo-jian-suo-yun-xing-commit_local_baseline-sh-liu-cheng.md",
+   "section": "快速上手",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "4-yun-xing-pei-zhi-yu-huan-jing-bian-liang-xiang-jie-mu-biao-fen-shu-ping-ce-hou-duan-ling-pai-yu-suan-yu-zhong-shi-ce-lue",
+   "title": "运行配置与环境变量详解：目标分数、评测后端、令牌预算与重试策略",
+   "file": "4-yun-xing-pei-zhi-yu-huan-jing-bian-liang-xiang-jie-mu-biao-fen-shu-ping-ce-hou-duan-ling-pai-yu-suan-yu-zhong-shi-ce-lue.md",
+   "section": "快速上手",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "5-shou-dong-zhi-xing-dan-jie-duan-liu-cheng-tuo-chi-zhi-neng-ti-xun-huan-zhi-jie-diao-yong-sft_train-convert_checkpoint-evaluate",
+   "title": "手动执行单阶段流程：脱离智能体循环直接调用 sft_train / convert_checkpoint / evaluate",
+   "file": "5-shou-dong-zhi-xing-dan-jie-duan-liu-cheng-tuo-chi-zhi-neng-ti-xun-huan-zhi-jie-diao-yong-sft_train-convert_checkpoint-evaluate.md",
+   "section": "快速上手",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "6-yun-xing-chan-wu-mu-lu-quan-jie-agent_execute-runs-xia-de-tai-zhang-bao-gao-jian-cha-dian-yu-fen-lei-shu-ju-bu-ju",
+   "title": "运行产物目录全解：agent_execute/runs 下的台账、报告、检查点与分类数据布局",
+   "file": "6-yun-xing-chan-wu-mu-lu-quan-jie-agent_execute-runs-xia-de-tai-zhang-bao-gao-jian-cha-dian-yu-fen-lei-shu-ju-bu-ju.md",
+   "section": "快速上手",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "7-duo-zhi-neng-ti-kong-zhi-ping-mian-yuan-zhi-neng-ti-zhi-xing-zhe-si-lu-bing-xing-fen-xi-yu-fen-lei-ti-xi-zi-zhi-neng-ti-de-fen-gong-she-ji",
+   "title": "多智能体控制平面：元智能体、执行者、四路并行分析与分类体系子智能体的分工设计",
+   "file": "7-duo-zhi-neng-ti-kong-zhi-ping-mian-yuan-zhi-neng-ti-zhi-xing-zhe-si-lu-bing-xing-fen-xi-yu-fen-lei-ti-xi-zi-zhi-neng-ti-de-fen-gong-she-ji.md",
+   "section": "深入解析",
+   "group": "多智能体架构与治理",
+   "level": "Advanced"
+  },
+  {
+   "slug": "8-zhi-neng-ti-qi-yue-yu-ying-xing-gui-ze-agents-md-de-shi-bu-liu-shui-xian-jiao-se-suo-you-quan-yu-ting-zhi-tiao-jian",
+   "title": "智能体契约与硬性规则：AGENTS.md 的十一步流水线、角色所有权与停止条件",
+   "file": "8-zhi-neng-ti-qi-yue-yu-ying-xing-gui-ze-agents-md-de-shi-bu-liu-shui-xian-jiao-se-suo-you-quan-yu-ting-zhi-tiao-jian.md",
+   "section": "深入解析",
+   "group": "多智能体架构与治理",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "9-ce-lue-shou-wei-ji-zhi-policy_guard-de-yuan-ma-bao-hu-jin-yong-xun-lian-liu-jian-ce-yu-wei-gui-shen-ji-policy_guard_check-sh",
+   "title": "策略守卫机制：policy_guard 的源码保护、禁用训练流检测与违规审计（policy_guard_check.sh）",
+   "file": "9-ce-lue-shou-wei-ji-zhi-policy_guard-de-yuan-ma-bao-hu-jin-yong-xun-lian-liu-jian-ce-yu-wei-gui-shen-ji-policy_guard_check-sh.md",
+   "section": "深入解析",
+   "group": "多智能体架构与治理",
+   "level": "Advanced"
+  },
+  {
+   "slug": "10-ji-neng-ku-she-ji-gui-fan-agent-skills-qian-zhi-yuan-shu-ju-dan-suo-you-quan-yu-jian-jin-shi-pi-lu-jie-gou",
+   "title": "技能库设计规范：Agent Skills 前置元数据、单一所有权与渐进式披露结构",
+   "file": "10-ji-neng-ku-she-ji-gui-fan-agent-skills-qian-zhi-yuan-shu-ju-dan-suo-you-quan-yu-jian-jin-shi-pi-lu-jie-gou.md",
+   "section": "深入解析",
+   "group": "多智能体架构与治理",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "11-shu-ju-dong-zuo-ji-hua-bu-ke-bian-yuan-ji-hua-operator-py-yue-shu-zhi-xing-yu-data-action-runner-de-quan-wei-cai-yang",
+   "title": "数据动作计划：不可变元计划、operator.py 约束执行与 Data Action Runner 的权威采样",
+   "file": "11-shu-ju-dong-zuo-ji-hua-bu-ke-bian-yuan-ji-hua-operator-py-yue-shu-zhi-xing-yu-data-action-runner-de-quan-wei-cai-yang.md",
+   "section": "深入解析",
+   "group": "数据决策与动作系统",
+   "level": "Advanced"
+  },
+  {
+   "slug": "12-fen-lei-suo-yin-yu-yuan-zi-jie-xi-qi-llmgateway-jie-gou-hua-biao-zhu-zhu-lun-yan-zheng-yu-nei-rong-xun-zhi-huan-cun",
+   "title": "分类索引与原子解析器：LLMGateway 结构化标注、逐轮验证与内容寻址缓存",
+   "file": "12-fen-lei-suo-yin-yu-yuan-zi-jie-xi-qi-llmgateway-jie-gou-hua-biao-zhu-zhu-lun-yan-zheng-yu-nei-rong-xun-zhi-huan-cun.md",
+   "section": "深入解析",
+   "group": "数据决策与动作系统",
+   "level": "Advanced"
+  },
+  {
+   "slug": "13-ling-pai-chang-du-suo-yin-yu-sstable-zhuan-huan-tong-yuan-de-ji-shu-lu-jing-zhi-wen-xiao-yan-yu-yu-suan-zhi-xing",
+   "title": "令牌长度索引：与 SSTable 转换同源的计数路径、指纹校验与预算一致性",
+   "file": "13-ling-pai-chang-du-suo-yin-yu-sstable-zhuan-huan-tong-yuan-de-ji-shu-lu-jing-zhi-wen-xiao-yan-yu-yu-suan-zhi-xing.md",
+   "section": "深入解析",
+   "group": "数据决策与动作系统",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "14-lei-mu-rong-liang-yu-zheng-xing-cai-yang-cap-pei-e-clip-and-drop-qian-tian-ce-lue-yu-san-lun-epoch-xun-lian-bu-shu-tui-dao",
+   "title": "类目容量与整行采样：cap 配额、clip-and-drop 欠填策略与三轮 epoch 训练步数推导",
+   "file": "14-lei-mu-rong-liang-yu-zheng-xing-cai-yang-cap-pei-e-clip-and-drop-qian-tian-ce-lue-yu-san-lun-epoch-xun-lian-bu-shu-tui-dao.md",
+   "section": "深入解析",
+   "group": "数据决策与动作系统",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "15-fen-lei-ti-xi-she-ji-qi-yue-taxonomy_contract-dong-jie-lei-mu-shu-yu-yi-yu-she-ji-shi-xian-fen-chi-yuan-ze",
+   "title": "分类体系设计契约：taxonomy_contract 冻结、类目树语义与设计/实现分离原则",
+   "file": "15-fen-lei-ti-xi-she-ji-qi-yue-taxonomy_contract-dong-jie-lei-mu-shu-yu-yi-yu-she-ji-shi-xian-fen-chi-yuan-ze.md",
+   "section": "深入解析",
+   "group": "分类体系与验证器",
+   "level": "Advanced"
+  },
+  {
+   "slug": "16-yan-zheng-qi-sha-xiang-yun-xing-shi-allowed_imports-bai-ming-dan-cpu-miao-xian-zhi-yu-chi-xian-que-ding-xing-zhi-xing",
+   "title": "验证器沙箱运行时：ALLOWED_IMPORTS 白名单、CPU 秒限制与离线确定性执行",
+   "file": "16-yan-zheng-qi-sha-xiang-yun-xing-shi-allowed_imports-bai-ming-dan-cpu-miao-xian-zhi-yu-chi-xian-que-ding-xing-zhi-xing.md",
+   "section": "深入解析",
+   "group": "分类体系与验证器",
+   "level": "Advanced"
+  },
+  {
+   "slug": "17-fa-bu-men-jin-liu-shui-xian-freeze-contract-validate-bundle-preflight-bundle-yu-yuan-zi-fa-bu",
+   "title": "发布门禁流水线：freeze-contract、validate-bundle、preflight-bundle 与原子发布",
+   "file": "17-fa-bu-men-jin-liu-shui-xian-freeze-contract-validate-bundle-preflight-bundle-yu-yuan-zi-fa-bu.md",
+   "section": "深入解析",
+   "group": "分类体系与验证器",
+   "level": "Advanced"
+  },
+  {
+   "slug": "18-jiang-ji-cai-jue-yu-hong-dui-ping-shen-shuang-ji-lu-men-du-li-ping-shen-yuan-yu-ji-qi-xie-ru-spawn_agent-shi-jian-yan-zheng",
+   "title": "降级裁决与红队评审：双记录门、独立评审员与机器写入 spawn_agent 事件验证",
+   "file": "18-jiang-ji-cai-jue-yu-hong-dui-ping-shen-shuang-ji-lu-men-du-li-ping-shen-yuan-yu-ji-qi-xie-ru-spawn_agent-shi-jian-yan-zheng.md",
+   "section": "深入解析",
+   "group": "分类体系与验证器",
+   "level": "Advanced"
+  },
+  {
+   "slug": "19-sft-xun-lian-lun-ci-cong-qwen3-base-du-li-chu-shi-hua-pei-fang-wu-hua-dao-sstable-zhuan-huan-yu-zuo-ye-ti-jiao",
+   "title": "SFT 训练轮次：从 Qwen3-Base 独立初始化、配方物化到 SSTable 转换与作业提交",
+   "file": "19-sft-xun-lian-lun-ci-cong-qwen3-base-du-li-chu-shi-hua-pei-fang-wu-hua-dao-sstable-zhuan-huan-yu-zuo-ye-ti-jiao.md",
+   "section": "深入解析",
+   "group": "训练与评测流水线",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "20-jian-cha-dian-zhuan-huan-megatron-fen-bu-shi-dao-hf-vllm-ge-shi-de-mi-deng-zhuan-huan-yu-python-huan-jing-ge-chi",
+   "title": "检查点转换：Megatron 分布式到 HF/vLLM 格式的幂等转换与 Python 环境隔离",
+   "file": "20-jian-cha-dian-zhuan-huan-megatron-fen-bu-shi-dao-hf-vllm-ge-shi-de-mi-deng-zhuan-huan-yu-python-huan-jing-ge-chi.md",
+   "section": "深入解析",
+   "group": "训练与评测流水线",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "21-ping-ce-hou-duan-shuang-gui-inspect-ai-mo-ren-lu-jing-yu-opencompass-vllm-zi-tuo-guan-api-qiao-jie",
+   "title": "评测后端双轨：Inspect AI 默认路径与 OpenCompass vLLM 自托管 API 桥接",
+   "file": "21-ping-ce-hou-duan-shuang-gui-inspect-ai-mo-ren-lu-jing-yu-opencompass-vllm-zi-tuo-guan-api-qiao-jie.md",
+   "section": "深入解析",
+   "group": "训练与评测流水线",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "22-cluster-zuo-ye-sheng-ming-zhou-qi-ti-jiao-lun-xun-ting-zhi-shou-ji-yu-clusterctl-you-jie-zhong-shi-ji-chu-she-shi",
+   "title": "Cluster 作业生命周期：提交、轮询、停止、收集与 clusterctl 有界重试基础设施",
+   "file": "22-cluster-zuo-ye-sheng-ming-zhou-qi-ti-jiao-lun-xun-ting-zhi-shou-ji-yu-clusterctl-you-jie-zhong-shi-ji-chu-she-shi.md",
+   "section": "深入解析",
+   "group": "训练与评测流水线",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "23-shi-yan-tai-zhang-iterations-jsonl-pei-dui-ji-lu-jie-gou-hua-jue-ce-bei-zhu-yu-zui-jia-fen-shu-zhui-zong",
+   "title": "实验台账：iterations.jsonl 配对记录、结构化决策备注与最佳分数追踪",
+   "file": "23-shi-yan-tai-zhang-iterations-jsonl-pei-dui-ji-lu-jie-gou-hua-jue-ce-bei-zhu-yu-zui-jia-fen-shu-zhui-zong.md",
+   "section": "深入解析",
+   "group": "分析与实验管理",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "24-si-wei-fen-xi-bao-gao-ti-xi-shi-bai-an-li-shu-ju-gong-gei-xue-xi-dong-li-xue-yu-fen-zhi-bao-liu-li-shi-de-gong-xiang-dong-zuo-yu-yi",
+   "title": "四维分析报告体系：失败案例、数据供给、学习动力学与分支保留历史的共享动作语义",
+   "file": "24-si-wei-fen-xi-bao-gao-ti-xi-shi-bai-an-li-shu-ju-gong-gei-xue-xi-dong-li-xue-yu-fen-zhi-bao-liu-li-shi-de-gong-xiang-dong-zuo-yu-yi.md",
+   "section": "深入解析",
+   "group": "分析与实验管理",
+   "level": "Advanced"
+  },
+  {
+   "slug": "25-zhi-xing-zhe-jiao-jie-yu-rong-cuo-hui-fu-executor_handoff-jin-cou-zhuang-tai-duan-dian-xu-pao-yu-fang-zhong-fu-ti-jiao-zhu-ce-biao",
+   "title": "执行者交接与容错恢复：executor_handoff 紧凑状态、断点续跑与防重复提交注册表",
+   "file": "25-zhi-xing-zhe-jiao-jie-yu-rong-cuo-hui-fu-executor_handoff-jin-cou-zhuang-tai-duan-dian-xu-pao-yu-fang-zhong-fu-ti-jiao-zhu-ce-biao.md",
+   "section": "深入解析",
+   "group": "分析与实验管理",
+   "level": "Advanced"
+  },
+  {
+   "slug": "26-cluster-yun-xing-shi-jing-xiang-dockerfile-gou-cheng-yan-zheng-qi-yi-lai-chi-xian-bu-shu-yu-gong-xiang-cun-chu-bu-ju",
+   "title": "Cluster 运行时镜像：Dockerfile 构成、验证器依赖离线部署与共享存储布局",
+   "file": "26-cluster-yun-xing-shi-jing-xiang-dockerfile-gou-cheng-yan-zheng-qi-yi-lai-chi-xian-bu-shu-yu-gong-xiang-cun-chu-bu-ju.md",
+   "section": "深入解析",
+   "group": "基础设施与扩展",
+   "level": "Intermediate"
+  },
+  {
+   "slug": "27-di-san-fang-ping-ce-yi-lai-ifeval-ifbench-gui-ze-ku-yu-inspect-ai-yun-xing-shi-de-nei-qian-yong-tu",
+   "title": "第三方评测依赖：IFEval / IFBench 规则库与 Inspect AI 运行时的内嵌用途",
+   "file": "27-di-san-fang-ping-ce-yi-lai-ifeval-ifbench-gui-ze-ku-yu-inspect-ai-yun-xing-shi-de-nei-qian-yong-tu.md",
+   "section": "深入解析",
+   "group": "基础设施与扩展",
+   "level": "Beginner"
+  },
+  {
+   "slug": "28-ce-shi-tao-jian-dao-hang-28-ge-ce-shi-wen-jian-fu-gai-de-qi-yue-mi-deng-xing-yu-men-jin-xing-wei",
+   "title": "测试套件导航：28 个测试文件覆盖的契约、幂等性与门禁行为",
+   "file": "28-ce-shi-tao-jian-dao-hang-28-ge-ce-shi-wen-jian-fu-gai-de-qi-yue-mi-deng-xing-yu-men-jin-xing-wei.md",
+   "section": "深入解析",
+   "group": "基础设施与扩展",
+   "level": "Intermediate"
+  }
+ ]
+}
